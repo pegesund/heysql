@@ -88,7 +88,7 @@ HeySql >> notes [
 	s add: r].
 s size.
 	
-	(Smalltalk classNamed: clsName) methodName: arg. (maybe param) 
+	(Smalltalk classNamed: clsName) methodName: arg. (maybe param, but check more params) 
 	
 	Transcript show: o class asString.
 	
