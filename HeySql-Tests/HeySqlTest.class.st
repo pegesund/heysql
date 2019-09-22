@@ -17,6 +17,13 @@ HeySqlTest >> setUp [
 ]
 
 { #category : #tests }
+HeySqlTest >> testMethodsCreated [
+	"comment stating purpose of instance-side message"
+	
+	
+]
+
+{ #category : #tests }
 HeySqlTest >> testNumberOfSqlParams [
 	"Test that we get number of params from an sql string. Note not a sql-statement which passes in the test :) "
 			
@@ -32,5 +39,10 @@ HeySqlTest >> testPersonCreated [
 	HeySqlPerson generateGettersAndSetters.
 	person := HeySqlPerson new.
 	self assert: (person respondsTo: #id).
-	self assert: (person respondsTo: #forname)
+	self assert: (person respondsTo: #forname).
+	HeySqlPerson removeSelector: #forname.
+	HeySqlPerson removeSelector: #surname.
+	HeySqlPerson removeSelector: #forname:.
+	HeySqlPerson removeSelector: #surname:.
+	self assert: ((HeySqlPerson new respondsTo: #forname) not)
 ]
