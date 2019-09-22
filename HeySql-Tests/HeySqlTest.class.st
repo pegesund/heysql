@@ -17,10 +17,20 @@ HeySqlTest >> setUp [
 ]
 
 { #category : #tests }
+HeySqlTest >> testNumberOfSqlParams [
+	"Test that we get number of params from an sql string. Note not a sql-statement which passes in the test :) "
+			
+	self assert: ((HeySql findNumberOfParams: 'select * from person where forname = $1 $2 $a') == 2)
+]
+
+{ #category : #tests }
 HeySqlTest >> testPersonCreated [
-	"sime test where we create a person"
+	"we create a person, check that we have accessors and this object"
+
 	| person |
+	HeySqlPerson setDbFields: 'forname surname'.
+	HeySqlPerson generateGettersAndSetters.
 	person := HeySqlPerson new.
 	self assert: (person respondsTo: #id).
-
+	self assert: (person respondsTo: #forname)
 ]

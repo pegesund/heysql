@@ -6,12 +6,13 @@ Class {
 	#superclass : #HeySql,
 	#instVars : [
 		'forname',
-		'surname'
+		'surname',
+		'theGender'
 	],
 	#category : #'HeySql-Tests-Initialize'
 }
 
 { #category : #'instance creation' }
-HeySqlPerson >> new [
-	^ (super new)
+HeySqlPerson class >> new [
+	^ super new.
 ]

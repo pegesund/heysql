@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'code-critics' }
+ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#HeySql #addSqlMethods: #false)) #'2019-09-22T12:56:23.2247+02:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySql class >> ruleRBClassNotReferencedRuleV1FalsePositive [
 	^ #(#(#(#RGPackageDefinition #(#HeySql)) #'2019-09-15T12:12:41.061929+02:00') )
 ]
@@ -25,4 +30,9 @@ ManifestHeySql class >> ruleRBNoClassCommentRuleV1FalsePositive [
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBRefersToClassRuleV1FalsePositive [
 	^ #(#(#(#RGClassDefinition #(#HeySql)) #'2019-09-15T20:15:19.160354+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBUtilityMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#HeySql #addSqlMethods: #false)) #'2019-09-22T13:19:05.871421+02:00') )
 ]
