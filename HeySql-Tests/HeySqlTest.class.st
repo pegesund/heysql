@@ -8,12 +8,13 @@ Class {
 }
 
 { #category : #running }
-HeySqlTest >> setUp [ 
+HeySqlTest >> setUp [
 	"set up client and create test object"
-	| client|
+
+	| client |
 	super setUp.
-	client := P3Client new url: 'psql://foxface:foxfase@localhost'.
-	HeySql connect: client.
+	client := P3Client new url: 'psql://foxface:foxface@localhost'.
+	HeySql connect: client
 ]
 
 { #category : #tests }
@@ -45,4 +46,19 @@ HeySqlTest >> testPersonCreated [
 	HeySqlPerson removeSelector: #forname:.
 	HeySqlPerson removeSelector: #surname:.
 	self assert: ((HeySqlPerson new respondsTo: #forname) not)
+]
+
+{ #category : #tests }
+HeySqlTest >> testSqlMethodsCreated [
+	"check that correct sql statements are created for the different methods"
+
+	| person dict |
+	HeySqlPerson setDbFields: 'forname surname'.
+	HeySqlPerson generateGettersAndSetters.
+	dict := Dictionary
+		newFrom:
+			{('personsFindall' -> 'select * from person').
+			('personsFindOne'
+				-> 'select * from person where forname = $1 and surname = $2')}.
+	HeySqlPerson generateSqlMethods: dict.
 ]
