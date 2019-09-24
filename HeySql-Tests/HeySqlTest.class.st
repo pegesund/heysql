@@ -63,7 +63,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	dict := Dictionary
 		newFrom:
 			{('personsFindall' -> 'select * from person').
-			('personsFindOne'
+			('personsFindByForename, Surname'
 				-> 'select * from person where forname = $1 and surname = $2')}.
 	HeySqlPerson generateSqlMethods: dict
 ]
