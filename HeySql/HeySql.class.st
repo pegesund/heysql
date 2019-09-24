@@ -1,29 +1,15 @@
 "
-Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
+""note that there is no binding between this function and rest of heysql, so can tables
+	in practice be done from pure sql code as well.
+	
+	Dictionary should be oncreateTableCellButtonUsing: 
+	colors := Dictionary personDict { 
+	   'id' -> 'serial' . 
+	   'forname' -> 'textt' . 
+	   'surname' -> 'json' 
+	}. 
 
-For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
-
-For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
-
-For the Collaborators Part: State my main collaborators and one line about how I interact with them. 
-
-Public API and Key Messages
-
-- message one   
-- message two 
-- (for bonus points) how to create instances.
-
-   One simple example is simply gorgeous.
-OK
- 
-Internal Representation and Key Implementation Points.
-
-    Instance Variables
-	db_x:		<Object>
-	db_y:		<Object>
-
-
-    Implementation Points
+	All P3-types can be used, look them up for a complete list
 "
 Class {
 	#name : #HeySql,
@@ -53,6 +39,32 @@ HeySql class >> connect: client [
 	"First connect through p3 as usual, and pass the client on to this class. Reuse client if allready set"
 	Client := client.
 	client ifNil: [ Client := client ]
+]
+
+{ #category : #initialization }
+HeySql class >> createTable: tableName tableDict: tableDict [
+	"helper function to quick create table based on a heysql instance
+        note that there is no binding between this function and rest of heysql, so can tables
+        in practice be done from pure sql code as well.
+        
+        Dictionary should be oncreateTableCellButtonUsing:
+        personDict := Dictionary newFrom { 
+           'id' -> 'serial' .
+           'forname' -> 'textt' . 
+           'surname' -> 'json' 
+        }.
+
+        All P3-types can be used, look them up for a complete list"
+
+	| sqlString |
+	sqlString := 'create table {1} (' format: {tableName}.
+	tableDict
+		keysAndValuesDo: [ :fieldName :fieldType | 
+			sqlString := sqlString , '{1} {2},'
+				format:
+					{fieldName.
+					fieldType} ].
+	Client execute: (sqlString allButLast , ')').			
 ]
 
 { #category : #initialization }
@@ -134,7 +146,6 @@ HeySql class >> generateSqlStatement: methodName sql: sql [
 	| statement |
 	statement := Client prepare: sql.
 	Statements at: methodName put: statement.
-	Statements inspect
 ]
 
 { #category : #initialization }

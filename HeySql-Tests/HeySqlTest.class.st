@@ -11,10 +11,15 @@ Class {
 HeySqlTest >> setUp [
 	"set up client and create test object"
 
-	| client |
+	| client personTable |
 	super setUp.
 	client := P3Client new url: 'psql://foxface:foxface@localhost'.
-	HeySql connect: client
+	HeySql connect: client.
+	client execute: 'drop table if exists person '.
+	personTable := {('id' -> 'serial').
+	('forname' -> 'text').
+	('surname' -> 'text')} asDictionary .
+	HeySql createTable: 'person' tableDict: personTable
 ]
 
 { #category : #tests }
@@ -52,7 +57,7 @@ HeySqlTest >> testPersonCreated [
 HeySqlTest >> testSqlMethodsCreated [
 	"check that correct sql statements are created for the different methods"
 
-	| person dict |
+	| dict |
 	HeySqlPerson setDbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
 	dict := Dictionary
@@ -60,5 +65,5 @@ HeySqlTest >> testSqlMethodsCreated [
 			{('personsFindall' -> 'select * from person').
 			('personsFindOne'
 				-> 'select * from person where forname = $1 and surname = $2')}.
-	HeySqlPerson generateSqlMethods: dict.
+	HeySqlPerson generateSqlMethods: dict
 ]
