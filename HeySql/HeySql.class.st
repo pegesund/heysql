@@ -172,7 +172,6 @@ HeySql >> id: x [
 
 { #category : #documenting }
 HeySql >> notes [
-<wikiStyleHelp: #'The name of the book I want to write'>
 	" myDict keysAndValuesDo: [ :key :value | value doSomething ].
 	Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3}
 	s := Set new.
@@ -193,5 +192,18 @@ s size.
 	
 	5 perform: ('factorial' asSymbol ) og 4 perform: #max: withArguments
 	
+!! Encode
+
+x := (ZnCharacterEncoder newForEncoding: 'utf8')
+      encodeString: 'Les élèves Français'.
+
+(ZnCharacterEncoder newForEncoding: 'utf8') decodeBytes: x		
+	
 	"
+	
+
+	
+
+	<wikiStyleHelp: #'The name of the book I want to write'>
+	
 ]
