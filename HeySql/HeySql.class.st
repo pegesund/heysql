@@ -67,7 +67,7 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 	Client execute: (sqlString allButLast , ')').			
 ]
 
-{ #category : #initialization }
+{ #category : #'private ' }
 HeySql class >> findNumberOfParams: sql [
 	"Iterates over a P3-executable and finds number of sql-params, namely those who starts with $"
 		| s |
@@ -137,7 +137,7 @@ HeySql class >> generateSqlMethods: dict [
 	     statement := Statements at: ''{3}''.
 	     result := statement query: {2}. 
 	
-	     ^result.
+	     ^ (self toObject: result).
 	    '
 				format:
 					{methodNameMaybeParams.
@@ -167,6 +167,43 @@ HeySql class >> setDbFields: allFields [
 	| fields |
 	fields := allFields splitOn: ' '.
 	DbFields := fields.
+]
+
+{ #category : #'private ' }
+HeySql class >> toObject: rSet [
+	"Convert P3-result to an object"
+
+	| methodFields manyObjects res |
+	methodFields := rSet data
+		collect: [ :row | 
+			(rSet descriptions collect: [ :f | f fieldName ])
+				with: row
+				collect: [ :f1 :f2 | 
+					{f1.
+					f2} ] ].
+	manyObjects := methodFields
+		collect: [ :row | 
+			| obj |
+			obj := self new.
+			row
+				do: [ :field | 
+					obj
+						perform: (field first , ':') asSymbol
+						withArguments: {field second} ].
+			obj ].
+	res := manyObjects size > 1
+		ifTrue: [ manyObjects ]
+		ifFalse: [ manyObjects first ].
+	^ res
+]
+
+{ #category : #initialization }
+HeySql class >> toObject: theClass sqlResult: rSet [
+	"Convert P3-result to an object"
+
+	| resultFields commonFields |
+	resultFields := rSet descriptions collect: [ :f | f fieldName ] asSet.
+	commonFields := resultFields union: DbFields asSet.
 ]
 
 { #category : #accessor }

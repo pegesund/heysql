@@ -13,6 +13,11 @@ ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive 
 ]
 
 { #category : #'code-critics' }
+ManifestHeySql class >> ruleRBBadMessageRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:54:04.108885+02:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySql class >> ruleRBClassNotReferencedRuleV1FalsePositive [
 	^ #(#(#(#RGPackageDefinition #(#HeySql)) #'2019-09-15T12:12:41.061929+02:00') )
 ]
@@ -30,6 +35,11 @@ ManifestHeySql class >> ruleRBNoClassCommentRuleV1FalsePositive [
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBRefersToClassRuleV1FalsePositive [
 	^ #(#(#(#RGClassDefinition #(#HeySql)) #'2019-09-15T20:15:19.160354+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBStringConcatenationRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') )
 ]
 
 { #category : #'code-critics' }
