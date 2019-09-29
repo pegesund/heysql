@@ -146,7 +146,7 @@ HeySql class >> generateSqlMethods: dict [
 			self class compile: methodString classified: 'accessor' ]
 ]
 
-{ #category : #initialization }
+{ #category : #'private ' }
 HeySql class >> generateSqlStatement: methodName sql: sql [
 	"Add an server side compiled statment which can be access from a slot"
 
@@ -195,15 +195,6 @@ HeySql class >> toObject: rSet [
 		ifTrue: [ manyObjects ]
 		ifFalse: [ manyObjects first ].
 	^ res
-]
-
-{ #category : #initialization }
-HeySql class >> toObject: theClass sqlResult: rSet [
-	"Convert P3-result to an object"
-
-	| resultFields commonFields |
-	resultFields := rSet descriptions collect: [ :f | f fieldName ] asSet.
-	commonFields := resultFields union: DbFields asSet.
 ]
 
 { #category : #accessor }
