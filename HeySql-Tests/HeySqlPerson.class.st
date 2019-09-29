@@ -7,11 +7,7 @@ Class {
 	#instVars : [
 		'forname',
 		'surname',
-		'theGender',
-		'heysql_pselect',
-		'heysql_pselect2',
-		'heysql_pselect3',
-		'heysql_pselect4'
+		'theGender'
 	],
 	#category : #'HeySql-Tests-Initialize'
 }
