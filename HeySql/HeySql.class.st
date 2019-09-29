@@ -118,9 +118,6 @@ HeySql class >> generateSqlMethods: dict [
 		keysAndValuesDo: [ :methodNames :sql | 
 			"self class compile: methodString classified: 'heysql' ]"
 			| methodString numParamsInSql params methodNameMaybeParams executeParams allMethods |
-			Transcript
-				show: 'Handling: ';
-				show: methodNames.
 			self generateSqlStatement: methodNames sql: sql.
 			numParamsInSql := self findNumberOfParams: sql.
 			params := numParamsInSql > 0
@@ -146,7 +143,6 @@ HeySql class >> generateSqlMethods: dict [
 					{methodNameMaybeParams.
 					executeParams.
 					methodNames}.
-			Transcript show: methodString.
 			self class compile: methodString classified: 'accessor' ]
 ]
 
