@@ -147,7 +147,7 @@ HeySql class >> generateSqlMethods: dict [
 					executeParams.
 					methodNames}.
 			Transcript show: methodString.
-			self compile: methodString classified: 'accessor' ]
+			self class compile: methodString classified: 'accessor' ]
 ]
 
 { #category : #initialization }
