@@ -55,15 +55,30 @@ HeySqlTest >> testPersonCreated [
 
 { #category : #tests }
 HeySqlTest >> testSqlMethodsCreated [
-	"check that correct sql statements are created for the different methods"
+	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
 
-	| dict |
+	| dict person person2 |
 	HeySqlPerson setDbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
+	HeySqlPerson generatereSimpleDbOperationsInsert: 'person'.
+	person := HeySqlPerson new.
+	person forname: 'petter'.
+	person surname: 'egesund'.
+	person insert.
+	self assert: [ person id == 1 ].
+	person2 := HeySqlPerson new.
+	person2 forname: 'petter2'.
+	person2 surname: 'egesund2'.
+	person2 insert.
+	self assert: [ person2 id == 2 ].
 	dict := Dictionary
 		newFrom:
 			{('personsFindall' -> 'select * from person').
 			('personsFindByForename, surname'
 				-> 'select * from person where forname = $1 and surname = $2')}.
-	HeySqlPerson generateSqlMethods: dict
+	HeySqlPerson generateSqlMethods: dict.
+	self assert: [ HeySqlPerson personsFindall size == 2 ].
+	self
+		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
+				isKindOf: HeySqlPerson ]
 ]
