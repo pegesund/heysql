@@ -60,7 +60,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	| dict person person2 |
 	HeySqlPerson setDbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
-	HeySqlPerson generatereSimpleDbOperationsInsert: 'person'.
+	HeySqlPerson generatereSimpleDbOperationInsert: 'person'.
 	person := HeySqlPerson new.
 	person forname: 'petter'.
 	person surname: 'egesund'.
@@ -80,5 +80,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	self assert: [ HeySqlPerson personsFindall size == 2 ].
 	self
 		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
-				isKindOf: HeySqlPerson ]
+				isKindOf: HeySqlPerson ].
+	person forname: 'hans petter'.
+	person update.		
 ]
