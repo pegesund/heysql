@@ -14,7 +14,7 @@ ManifestHeySqlTests class >> ruleGRIvarNeitherReadNorWrittenRuleV1FalsePositive 
 
 { #category : #'code-critics' }
 ManifestHeySqlTests class >> ruleRBBadMessageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#HeySqlTest #testPersonCreated #false)) #'2019-09-21T15:12:13.482765+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#HeySqlTest #testPersonCreated #false)) #'2019-09-21T15:12:13.482765+02:00') #(#(#RGMethodDefinition #(#HeySqlPerson #insert #false)) #'2019-09-30T14:52:25.228352+02:00') )
 ]
 
 { #category : #'code-critics' }

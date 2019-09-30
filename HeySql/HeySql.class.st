@@ -185,13 +185,13 @@ HeySql class >> generatereSimpleDbOperationsInsert: tableName [
 	   | values res |
 		values := DbFields collect: [ :field |
 		| m |
-		m := self perform: (field asSymbol)
+		m := self perform: (field asSymbol). m.
 		 ].
 	   res := InsertDb query: values.
 	   ^ res.
 	'.
 	Transcript show: method.
-	^ sqlInsert
+	self compile: method classified: 'accessor'.
 ]
 
 { #category : #initialization }
