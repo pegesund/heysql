@@ -100,13 +100,6 @@ HeySql class >> generateGettersAndSetters [
 			self  compile: setter classified: 'accessor' ]
 ]
 
-{ #category : #initialization }
-HeySql class >> generateSimpleDbOperation: tableName [
-	"generate insert and update statemens for the object. setDbFields must have been done before doing this."
-	self generateSimpleDbOperationInsert: tableName .
-	self generateSimpleDbOperationUpdate: tableName .
-]
-
 { #category : #'private ' }
 HeySql class >> generateSimpleDbOperationInsert: tableName [
 	"Generate helpers for inserting and updating. Before running this method setDbFiels must have been sendt"
@@ -182,6 +175,15 @@ HeySql class >> generateSimpleDbOperationUpdate: tableName [
 	'.
 	Transcript show: method.
 	self compile: method classified: 'db'
+]
+
+{ #category : #initialization }
+HeySql class >> generateSimpleDbOperations: tableName [
+	"generate insert and update statemens for the object. setDbFields must have been done before doing this."
+
+	|  |
+	self generateSimpleDbOperationInsert: tableName.
+	self generateSimpleDbOperationUpdate: tableName
 ]
 
 { #category : #initialization }
