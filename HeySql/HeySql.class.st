@@ -196,12 +196,12 @@ HeySql class >> generateSqlMethods: dict [
 	d := Dictionary newFrom: 
 	{ 'allBooks' -> 'select * from books' . 
   	  'allCustomerWithMoreThanOnePurches' -> 'select, join and have sql-fun here' 
-	  'queryWithTwoParams' -> 'select something where x = $1 and y = $2 ]  '
+	  'queryWithTwoParamsParam1, param2' -> 'select something where x = $1 and y = $2 ]  '
 	}. 
 	
 	"
 
-	Statements := Dictionary new.
+	
 	dict
 		keysAndValuesDo: [ :methodNames :sql | 
 			"self class compile: methodString classified: 'heysql' ]"
@@ -244,11 +244,20 @@ HeySql class >> generateSqlStatement: methodName sql: sql [
 ]
 
 { #category : #initialization }
-HeySql class >> setDbFields: allFields [ 
+HeySql class >> init [
+	"init start variables"
+	Statements := Dictionary new.
+	
+]
+
+{ #category : #initialization }
+HeySql class >> setDbFields: allFields [
 	"Set fields which also have column in database"
+
 	| fields |
 	fields := allFields splitOn: ' '.
 	DbFields := fields.
+	self generateGettersAndSetters .
 ]
 
 { #category : #'private ' }

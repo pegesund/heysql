@@ -58,8 +58,8 @@ HeySqlTest >> testSqlMethodsCreated [
 	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
 
 	| dict person person2 person3 |
+	HeySqlPerson init.
 	HeySqlPerson setDbFields: 'forname surname'.
-	HeySqlPerson generateGettersAndSetters.
 	HeySqlPerson generateSimpleDbOperations: 'person'.
 	person := HeySqlPerson new.
 	person forname: 'petter'.
@@ -86,5 +86,5 @@ HeySqlTest >> testSqlMethodsCreated [
 	person update.
 	person3 := HeySqlPerson byId: 1.
 	self assert: [ person3 id = 1 ].
-	self assert: [ person3 forname = 'hans petter' ].
+	self assert: [ person3 forname = 'hans petter' ]
 ]
