@@ -61,6 +61,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	HeySqlPerson setDbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
 	HeySqlPerson generatereSimpleDbOperationInsert: 'person'.
+	HeySqlPerson generateSimpleDbOperationUpdate: 'person'.
 	person := HeySqlPerson new.
 	person forname: 'petter'.
 	person surname: 'egesund'.
@@ -82,5 +83,5 @@ HeySqlTest >> testSqlMethodsCreated [
 		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
 				isKindOf: HeySqlPerson ].
 	person forname: 'hans petter'.
-	person update.		
+	person update
 ]
