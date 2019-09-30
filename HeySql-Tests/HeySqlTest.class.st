@@ -60,8 +60,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	| dict person person2 |
 	HeySqlPerson setDbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
-	HeySqlPerson generatereSimpleDbOperationInsert: 'person'.
-	HeySqlPerson generateSimpleDbOperationUpdate: 'person'.
+	HeySqlPerson generateSimpleDbOperation: 'person'.
 	person := HeySqlPerson new.
 	person forname: 'petter'.
 	person surname: 'egesund'.
