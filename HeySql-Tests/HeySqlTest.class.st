@@ -22,6 +22,14 @@ HeySqlTest >> setUp [
 	HeySql createTable: 'person' tableDict: personTable
 ]
 
+{ #category : #running }
+HeySqlTest >> tearDown [
+	"End of tests"
+
+	HeySqlPerson disConnect.
+	super tearDown
+]
+
 { #category : #tests }
 HeySqlTest >> testMethodsCreated [
 	"comment stating purpose of instance-side message"

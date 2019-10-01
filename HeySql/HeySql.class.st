@@ -70,6 +70,13 @@ HeySql class >> dbFields: allFields [
 	self generateGettersAndSetters .
 ]
 
+{ #category : #connection }
+HeySql class >> disConnect [
+	"disConnect the db-client"
+	Client close
+
+]
+
 { #category : #'private ' }
 HeySql class >> findNumberOfParams: sql [
 	"Iterates over a P3-executable and finds number of sql-params, namely those who starts with $"
