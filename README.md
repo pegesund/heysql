@@ -12,7 +12,7 @@ If you are intrested in the magnificent smalltalk language, you can read more ab
 
 ## Usage
 
-The code is based upon the awesom P3-library for Postgresql.
+The code is based upon the awesome P3-library for Postgresql.
 
 ### Connecting
 
@@ -23,7 +23,7 @@ HeySql connect: client
 
 ### Automaticall generated functionality
 
-After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname)
+After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname). "person" is the name of the db-table.
 
 ```smalltalk
 	HeySqlPerson init.
