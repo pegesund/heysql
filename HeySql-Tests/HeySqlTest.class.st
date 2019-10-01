@@ -41,7 +41,7 @@ HeySqlTest >> testPersonCreated [
 	"we create a person, check that we have accessors and this object"
 
 	| person |
-	HeySqlPerson setDbFields: 'forname surname'.
+	HeySqlPerson dbFields: 'forname surname'.
 	HeySqlPerson generateGettersAndSetters.
 	person := HeySqlPerson new.
 	self assert: (person respondsTo: #id).
@@ -59,7 +59,7 @@ HeySqlTest >> testSqlMethodsCreated [
 
 	| dict person person2 person3 |
 	HeySqlPerson init.
-	HeySqlPerson setDbFields: 'forname surname'.
+	HeySqlPerson dbFields: 'forname surname'.
 	HeySqlPerson generateSimpleDbOperations: 'person'.
 	person := HeySqlPerson new.
 	person forname: 'petter'.
