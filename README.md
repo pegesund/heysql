@@ -6,7 +6,7 @@ The older I have got, the more I have started to dislike database orms. They are
 
 On the other hand one very often do have something like models in the code. Product, customer, purchase and so on - and the boilerplate to get this stuff up and running can be quite boring and time consuming.
 
-HeySql is an attempt to find the right balance between an orm and doing thing in sql.
+HeySql is an attempt to find the right balance between an orm and doing things in sql.
 
 
 ## Usage
@@ -16,7 +16,7 @@ The code is based upon the awesome P3-library for Postgresql.
 ### This code has been written Pharo Smalltalk
 
 	- Uses reflection
-	- Adds methods by compiling in runtime
+	- Adds methods by compiling in runtime (very nice language feature!)
 	- Uses the standard test-system. To run the tests in the test-package you must set up the database propery on your local computer.
 
 If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: placeholder.
