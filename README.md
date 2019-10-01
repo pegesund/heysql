@@ -8,7 +8,7 @@ On the other hand one very often do have something like models in the code. Prod
 
 HeySql is an attempt to find the right balance between an orm and doing thing in sql.
 
-If you are intrested in the magnifican smalltalk language, you can read more about my experience writing the library here: placeholder.
+If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: placeholder.
 
 ## Usage
 
