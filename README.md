@@ -82,7 +82,7 @@ Doing queries this way has these advantages:
 	- You have the full power of sql, no strange dsl
 	- Sql-queries will available as code methods, with parameteres and available in autocomplete. I like prefixing all queries for the person-class with person.. to easy look up methods for the class.
 	- This should make the code more readable and be a good starting point for reusing queries.
-	- It should be pretty easy to use all the features of the database, ex. json, gis, freetext seary and so on - which normally not are available in orms.
+	- It should be pretty easy to use all the features of the database, ex. json, gis, freetext search and so on - which normally not are available in orms.
 	- As we use server side compiled statemens it sould be pretty fast and also safe when it comes to hijacking.
 
 ### Creating tables
