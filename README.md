@@ -71,6 +71,8 @@ You will now have access to the new defined methods.
 
 Note that the number of $'s must match the number of string separated functions on the left hand side in the dictionary!
 
+The return of a generated query will be the objects of the defined type, in this case of person-type. If we get one result, this is returned - if we get several the result is an array.
+
 ```smalltalk
 persons := HeySqlPerson personsFindall.
 person := HeySqlPerson byId: 1.
@@ -95,6 +97,8 @@ personTable := {('id' -> 'serial').
 	('surname' -> 'text')} asDictionary.
 	HeySql createTable: 'person' tableDict: personTable
 ```
+
+All data types which are supported by P3 will work fine. Note that this one drops your table if found from before!
 
 ### Database migration
 
