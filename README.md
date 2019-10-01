@@ -8,11 +8,18 @@ On the other hand one very often do have something like models in the code. Prod
 
 HeySql is an attempt to find the right balance between an orm and doing thing in sql.
 
-If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: placeholder.
 
 ## Usage
 
 The code is based upon the awesome P3-library for Postgresql.
+
+### This code has been written Pharo Smalltalk
+
+	- Uses reflection
+	- Adds methods by compiling in runtime
+	- Uses the standard test-system. To run the tests in the test-package you must set up the database propery on your local computer.
+
+If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: placeholder.
 
 ### Connecting
 
@@ -89,9 +96,9 @@ personTable := {('id' -> 'serial').
 
 ### Database migration
 
-Just change the columns with plan P3-sql, and then rerun the generation methods.
+Just change the columns with plain P3-sql, and then rerun the generation methods.
 
-To come: a migration part which connects even more nice with this library.
+To come: a migration part which connects even more nicely with this library.
 
 ### Example usage
 
@@ -138,9 +145,9 @@ testSqlMethodsCreated
 
 	- Still in version 1-beta.
 	- Variables in the classes must have the exact same name as in the datbase. I consider this as a good coding style and as a feature.
-	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries due to some strange reasons contains $NUM you might get into trouble. Values to inserted can off course contain these special characters.
-	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritte.
-	- Doe to the compile-edit-lifecycle in the gui you must run the generators before the code is accepted when coding. I use the playground or even move the models to a separate package - the models can the be genereate from the baseline with the #postLoadDoIt function. There are probably many other ways to handle this as well.
+	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries due to some strange reasons contains $NUM you might get into trouble. Values to be inserted can off course contain these special characters.
+	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritten.
+	- Due to the compile-edit-lifecycle in the gui, you must run the generators before the code is accepted when coding. I use the playground or you can even move the models to a separate package - the models can then be genereatet from the baseline with the #postLoadDoIt function. There are probably many other ways to handle this as well.
 
 ### License and usage
 
