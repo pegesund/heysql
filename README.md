@@ -98,6 +98,8 @@ personTable := {('id' -> 'serial').
 	HeySql createTable: 'person' tableDict: personTable
 ```
 
+All data types which are supported by P3 will work fine. Note that this one drops your table if found from before!
+
 ### Database migration
 
 Just change the columns with plain P3-sql, and then rerun the generation methods.
