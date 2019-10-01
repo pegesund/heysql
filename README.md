@@ -151,7 +151,7 @@ testSqlMethodsCreated
 	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritten.
 	- Due to the compile-edit-lifecycle in the gui, you must run the generators before the code is accepted when coding. I use the playground or you can even move the models to a separate package - the models can then be genereatet from the baseline with the #postLoadDoIt function. There are probably many other ways to handle this as well.
 
-### License and usage
+## License and usage
 
 This is BSD-license, use it as you would like.
 
