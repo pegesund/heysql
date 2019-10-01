@@ -86,5 +86,5 @@ HeySqlTest >> testSqlMethodsCreated [
 	person update.
 	person3 := HeySqlPerson byId: 1.
 	self assert: [ person3 id = 1 ].
-	self assert: [ person3 forname = 'hans petter' ]
+	self assert: [ person3 forname = 'hans petter' ].
 ]

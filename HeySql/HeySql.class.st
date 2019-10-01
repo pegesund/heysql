@@ -27,15 +27,6 @@ Class {
 	#category : #'HeySql-Initialize'
 }
 
-{ #category : #adding }
-HeySql class >> addDependencies [
-	"This load dependencies which are needed for the package to work"
-	Metacello new
- 	  baseline: 'P3';
-	   repository: 'github://svenvc/P3';
-	   load.
-]
-
 { #category : #connection }
 HeySql class >> connect: client [
 	"First connect through p3 as usual, and pass the client on to this class. Reuse client if allready set"
