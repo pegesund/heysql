@@ -67,7 +67,7 @@ It is very easy to add your own queries as well.
 	HeySqlPerson generateSqlMethods: dict.
 ```
 
-You will now have access to the the methods.
+You will now have access to the new defined methods.
 
 Note that the number of $'s must match the number of string separated functions on the left hand side in the dictionary!
 
