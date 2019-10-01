@@ -16,12 +16,14 @@ The code is based upon the awesom P3-library for Postgresql.
 
 ### Connecting
 
+```smalltalk
 client := P3Client new url: 'psql://test@localhost'.
 HeySql connect: client
+```
 
 ### Automaticall generated functionality
 
-After creating the class you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname'
+After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname)
 
 ```smalltalk
 	HeySqlPerson init.
@@ -29,7 +31,7 @@ After creating the class you can just write this piece of code (say you have a c
 	HeySqlPerson generateSimpleDbOperations: 'person'.
 ```
 
-You will now have this functionality for this class:
+You will now have this functionality for the class:
 
 	- Getter and setters
 	- The object methods insert and update
@@ -72,16 +74,76 @@ Doing queries this way has these advantages:
 	- Sql-queries will available as code methods, with parameteres and available in autocomplete. I like prefixing all queries for the person-class with person.. to easy look up methods for the class.
 	- This should make the code more readable and be a good starting point for reusing queries.
 	- It should be pretty easy to use all the features of the database, ex. json, gis, freetext and so on - which normall not are available in orms.
+	- As we use server side compiled statemens it sould be pretty fast and also safe when it somes to hijacking.
+
+### Creating tables
+
+You can use this helper function to create tables, or you can do it your way:
+
+```smalltalk
+personTable := {('id' -> 'serial').
+	('forname' -> 'text').
+	('surname' -> 'text')} asDictionary.
+	HeySql createTable: 'person' tableDict: personTable
+```
+
+### Database migration
+
+Just change the columns with plan P3-sql, and then rerun the generation methods.
+
+To come: a migration part which connects even more nice with this library.
+
+### Example usage
+
+This part taken from the tests should illustrate usage of most funcionality.
+
+```smalltalk
+testSqlMethodsCreated
+	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
+
+	| dict person person2 person3 |
+	HeySqlPerson init.
+	HeySqlPerson dbFields: 'forname surname'.
+	HeySqlPerson generateSimpleDbOperations: 'person'.
+	person := HeySqlPerson new.
+	person forname: 'petter'.
+	person surname: 'egesund'.
+	person insert.
+	self assert: [ person id == 1 ].
+	person2 := HeySqlPerson new.
+	person2 forname: 'petter2'.
+	person2 surname: 'egesund2'.
+	person2 insert.
+	self assert: [ person2 id == 2 ].
+	dict := Dictionary
+		newFrom:
+			{('personsFindall' -> 'select * from person').
+			('personsFindByForename, surname'
+				-> 'select * from person where forname = $1 and surname = $2').
+			('byId' -> 'select * from person where id = $1')}.
+	HeySqlPerson generateSqlMethods: dict.
+	self assert: [ HeySqlPerson personsFindall size == 2 ].
+	self
+		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
+				isKindOf: HeySqlPerson ].
+	person forname: 'hans petter'.
+	person update.
+	person3 := HeySqlPerson byId: 1.
+	self assert: [ person3 id = 1 ].
+	self assert: [ person3 forname = 'hans petter' ]
+```
+
 
 ### Implementation and pitfalls
 
 	- Still in version 1-beta.
-	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries by some strange way contains $1 you might get into trouble. Values to inserted can off course contain these special characters.
+	- Variables in the classes must have the exact same name as in the datbase. I consider this as a good coding style and as a feature.
+	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries due to some strange reasons contains $NUM you might get into trouble. Values to inserted can off course contain these special characters.
 	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritte.
-	- Doe to the compile-edit-lifecycle in the gui you must run the generators before the code is accepted when coding. I use the playground or even move the modes to a separate package - the models can the be genereate from the baseline with the #postLoadDoIt function. There are probably many other ways to handle this as well.
+	- Doe to the compile-edit-lifecycle in the gui you must run the generators before the code is accepted when coding. I use the playground or even move the models to a separate package - the models can the be genereate from the baseline with the #postLoadDoIt function. There are probably many other ways to handle this as well.
 
 ### License and usage
 
 This is BSD-license, use it as you would like.
 
-Drop me a line if you use the library for anything. Would be cool to know.
+Drop me a line if you use the library for anything - would be cool to know!
