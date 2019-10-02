@@ -14,7 +14,7 @@ BaselineOfHeySql >> baselineOf: spec [
 		for: #common
 		do: [ spec
 				baseline: 'P3'
-				with: [ spec repository: 'github://svenvc/P3:master/repository' ].
+				with: [ spec repository: 'github://svenvc/P3' ].
 			spec package: 'HeySql' with: [ spec requires: #('P3') ].
 			spec package: 'HeySql-Tests' with: [ spec requires: #('HeySql') ].
 			spec group: 'default' with: #('HeySql' 'HeySql-Tests').
