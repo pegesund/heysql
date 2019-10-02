@@ -19,7 +19,7 @@ The code is based upon the awesome P3-library for Postgresql.
 	- Adds methods by compiling in runtime (very nice language feature!)
 	- Uses the standard test-system. To run the tests in the test-package you must set up the database propery on your local computer.
 
-If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: placeholder.
+If you are intrested in the magnificent smalltalk language, you can read more about my experience writing the library here: https://ramblings.work/posts/2019-02-10-heysql.html.
 
 ### Connecting
 
