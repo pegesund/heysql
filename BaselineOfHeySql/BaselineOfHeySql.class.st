@@ -13,7 +13,7 @@ BaselineOfHeySql >> baselineOf: spec [
 	spec
 		for: #common
 		do: [ spec
-				baseline: 'BaselineOfP3'
+				baseline: 'Hupp'
 				with: [ spec repository: 'github://svenvc/P3:master/repository' ].
 			spec package: 'HeySql' with: [ spec requires: #('P3') ].
 			spec package: 'HeySql-Tests' with: [ spec requires: #('HeySql') ].
