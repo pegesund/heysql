@@ -162,7 +162,7 @@ Load code like this. Will Load P3 as well.
 ```smalltalk
 Metacello new
    baseline: 'HeySql';
-   repository: 'https://github.com/pegesund/heysql';
+   repository: 'github://pegesund/heysql';
    load.
 ```
 
