@@ -14,7 +14,9 @@ BaselineOfHeySql >> baselineOf: spec [
 		for: #common
 		do: [ spec
 				baseline: 'BaselineOfP3'
-				with: [ spec repository: 'github://svenvc/P3'; loads: #('P3') ].
+				with: [ spec
+						repository: 'github://svenvc/P3:master/repository';
+						loads: #('P3') ].
 			spec
 				baseline: 'P3'
 				with: [ spec repository: 'github://svenvc/P3:master/repository' ].
