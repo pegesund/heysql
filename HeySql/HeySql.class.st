@@ -110,7 +110,7 @@ HeySql class >> generateGettersAndSetters [
 
 { #category : #'private ' }
 HeySql class >> generateSimpleDbOperationInsert: tableName [
-	"Generate methods for inserting and updating. Before running this method setDbFiels must have been sendt"
+	"Generate methods for inserting and updating. Before running this method setDbFiels must have been called"
 
 	| sqlInsert fields values method |
 	fields := (DbFields select: [ :f | f ~~ 'id' ]) joinUsing: ','.
