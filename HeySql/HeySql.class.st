@@ -34,6 +34,13 @@ HeySql class >> connect: client [
 	client ifNil: [ Client := client ]
 ]
 
+{ #category : #accessing }
+HeySql class >> connection [
+	"return the db connection"
+	^ Client.
+
+]
+
 { #category : #initialization }
 HeySql class >> createTable: tableName tableDict: tableDict [
 	"helper function to quick create table based on a heysql instance
