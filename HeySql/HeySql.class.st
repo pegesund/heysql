@@ -87,11 +87,11 @@ HeySql class >> disConnect [
 { #category : #'private ' }
 HeySql class >> findNumberOfParams: sql [
 	"Iterates over a P3-executable and finds number of sql-params, namely those who starts with $"
-		| s |
+
+	| s |
 	s := Set new.
-	sql regex: '[$]\d+' matchesCollect: [ :r |
-	s add: r].
-	^ (s size)
+	sql regex: '[$]\d+' matchesCollect: [ :r | s add: r ]. 
+	^ s size
 ]
 
 { #category : #initialization }

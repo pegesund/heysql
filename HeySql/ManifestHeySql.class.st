@@ -14,7 +14,7 @@ ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive 
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBBadMessageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:54:04.108885+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:54:04.108885+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-10-07T17:56:48.559046+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -24,7 +24,12 @@ ManifestHeySql class >> ruleRBClassNotReferencedRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBCodeCruftLeftInMethodsRuleV1FalsePositive [
-	^ #(#(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2019-09-15T20:07:49.695875+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2019-09-15T20:14:41.610393+02:00') )
+	^ #(#(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2019-09-15T20:07:49.695875+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2019-09-15T20:14:41.610393+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-10-07T17:56:34.323547+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBGlobalVariablesUsageV1FalsePositive [
+	^ #(#(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-10-07T17:56:39.662978+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -39,7 +44,12 @@ ManifestHeySql class >> ruleRBRefersToClassRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBStringConcatenationRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationTemplate: #true)) #'2019-10-07T17:56:28.726053+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBUnclassifiedMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGPackageDefinition #(#HeySql)) #'2019-10-07T18:00:05.09807+02:00') )
 ]
 
 { #category : #'code-critics' }
