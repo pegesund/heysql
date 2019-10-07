@@ -249,15 +249,7 @@ HeySql class >> generateSqlStatement: methodName sql: sql [
 	"Add an server side compiled statment which can be access from a slot"
 
 	| statement |
-	[ statement := Client prepare: sql ]
-		on: P3Error
-		do: [ :e | 
-			(e asString findString: 'already exists') > 0
-				ifTrue: [ Transcript
-						show: 'Warning only, but just to let you know: ';
-						show: e asString ]
-				ifFalse: [ e pass ] ].
-			
+	statement := Client prepare: sql.
 	Statements at: methodName put: statement
 ]
 
