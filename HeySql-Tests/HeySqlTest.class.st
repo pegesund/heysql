@@ -32,8 +32,8 @@ HeySqlTest >> tearDown [
 
 { #category : #tests }
 HeySqlTest >> testMethodsCreated [
-	"comment stating purpose of instance-side message"
-	
+	"comment stating purpose of instance-side message, should not fail :)"
+
 	
 ]
 
