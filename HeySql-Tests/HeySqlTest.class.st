@@ -38,6 +38,11 @@ HeySqlTest >> testMethodsCreated [
 ]
 
 { #category : #tests }
+HeySqlTest >> testMigration [
+	"comment stating purpose of instance-side message"
+]
+
+{ #category : #tests }
 HeySqlTest >> testNumberOfSqlParams [
 	"Test that we get number of params from an sql string. Note not a sql-statement which passes in the test :) "
 			
