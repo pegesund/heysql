@@ -77,6 +77,25 @@ HeySqlDbMigrator class >> createMigrationTemplate: packageName [
 			Transcript show: table withCRs ]
 ]
 
+{ #category : #db }
+HeySqlDbMigrator class >> forceMigrateOne: methodName [
+	"Note, this should be only used in special cases. It does not!! update the migration table"
+
+	| method |
+	method := ('migrate_' , methodName) asSymbol.
+	self migrateSome: { method }.
+]
+
+{ #category : #private }
+HeySqlDbMigrator class >> getCurrentMigrationFromDb [
+	"comment stating purpose of class-side message"
+
+	| client res |
+	client := HeySql connection.
+	res := client query: 'select mdate from migrations where id = 1'.
+	^ (res data) at: 1
+]
+
 { #category : #private }
 HeySqlDbMigrator class >> getNow [
 	"returns now in migrate format"
@@ -87,22 +106,36 @@ HeySqlDbMigrator class >> getNow [
 ]
 
 { #category : #db }
+HeySqlDbMigrator class >> migrate [
+	"migrates database up to current version."
+
+	| start stop |
+	start := self getCurrentMigrationFromDb.
+	stop := self getNow.
+	start >= stop
+		ifTrue: [ ^ false ].
+	self migratestart: start to: stop.
+	self updateMigrationTable: stop.
+	^ true
+]
+
+{ #category : #private }
 HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	"Migrate one or many methods"
 
 	| client |
 	client := HeySql connection.
-	client execute: 'begin transaction;'.
+	client execute: 'begin transaction'.
 	[ migrateMethods asSortedCollection
 		do: [ :method | HeySqlMigrationClass perform: method ] ]
 		on: Exception
 		do: [ :ex | 
-			client execute: 'rollback;'.
+			client execute: 'rollback'.
 			ex pass ].
 	client execute: 'commit;'
 ]
 
-{ #category : #db }
+{ #category : #private }
 HeySqlDbMigrator class >> migratestart: migrateStart to: migrateStop [
 	"Used to run migratios. Use like this:
 	DbMigrator migrate: '2019_10_06T11_15_16Z' to:  '2019_11_06T11_15_16Z'
