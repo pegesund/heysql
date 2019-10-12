@@ -128,6 +128,7 @@ HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	"Migrate one or many methods"
 
 	| client |
+	Transcript show: 'Doing migration'; cr.
 	client := HeySql connection.
 	client execute: 'begin transaction'.
 	[ migrateMethods asSortedCollection
@@ -136,7 +137,10 @@ HeySqlDbMigrator class >> migrateSome: migrateMethods [
 		do: [ :ex | 
 			client execute: 'rollback'.
 			ex pass ].
-	client execute: 'commit;'
+	client execute: 'commit;'.
+	Transcript
+		show: 'Done migration';
+		cr
 ]
 
 { #category : #private }
