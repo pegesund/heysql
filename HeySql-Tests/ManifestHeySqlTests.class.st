@@ -24,7 +24,7 @@ ManifestHeySqlTests class >> ruleRBCodeCruftLeftInMethodsRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySqlTests class >> ruleRBLongMethodsRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#HeySqlTest #testSqlMethodsCreated #false)) #'2019-09-30T19:15:46.749485+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#HeySqlTest #testSqlMethodsCreated #false)) #'2019-09-30T19:15:46.749485+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlMigrations class' #HeySqlMigrations)) #'2019-10-13T16:13:53.65132+02:00') )
 ]
 
 { #category : #'code-critics' }

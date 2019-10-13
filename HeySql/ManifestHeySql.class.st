@@ -9,7 +9,7 @@ Class {
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#HeySql #addSqlMethods: #false)) #'2019-09-22T12:56:23.2247+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #createTable:tableDict: #true)) #'2019-09-24T13:23:08.732412+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationTemplate: #true)) #'2019-10-13T10:47:31.141202+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#HeySql #addSqlMethods: #false)) #'2019-09-22T12:56:23.2247+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #createTable:tableDict: #true)) #'2019-09-24T13:23:08.732412+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationPackage: #true)) #'2019-10-13T10:47:31.141202+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -44,7 +44,7 @@ ManifestHeySql class >> ruleRBRefersToClassRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBStringConcatenationRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationTemplate: #true)) #'2019-10-07T17:56:28.726053+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationPackage: #true)) #'2019-10-07T17:56:28.726053+02:00') )
 ]
 
 { #category : #'code-critics' }
