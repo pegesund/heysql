@@ -34,7 +34,7 @@ HeySqlDbMigrator class >> createMigrationTemplate: packageName [
 	Remark that there are no dependency analysys between the tables, so the output order of the tables is random 
 	"
 
-	| classes |
+	| classes dbVars |
 	Transcript clear.
 	classes := Smalltalk allClassesAndTraits
 		select: [ :theClass | 
@@ -49,6 +49,13 @@ HeySqlDbMigrator class >> createMigrationTemplate: packageName [
 				show:
 					('\\\\"-- Generated code for class: {1}"
 		' format: {c asString}) withCRs.
+			dbVars := c allSuperclasses , {c}
+				collect: [ :f | 
+					(f respondsTo: #dbFields)
+					ifTrue: [ f dbFields splitOn: ' ' ]
+					ifFalse: [ {} ]
+					
+					].
 			vars := (((c allSuperclasses , {c}
 				flatCollect: [ :f | f instVarNames ])
 				collect: [ :v | '         ( ''{1}'' -> ''type'')' format: {v asString} ])
