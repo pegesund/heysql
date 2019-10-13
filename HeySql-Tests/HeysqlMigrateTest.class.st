@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 HeysqlMigrateTest >> testMigrateSimple [
-	"generate some migrations methods without content, then run this and make sure migration date is updated"
+	"generate some migrations methods without content, then run this and make sure migration date is updated."
 
 	| client lastMigration lastMigrationDb |
 	HeySqlDbMigrator new: HeySqlMigrations.
