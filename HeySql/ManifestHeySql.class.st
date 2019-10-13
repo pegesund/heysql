@@ -14,7 +14,7 @@ ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive 
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBBadMessageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:54:04.108885+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-10-07T17:56:48.559046+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:54:04.108885+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-10-07T17:56:48.559046+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #dbFields #true)) #'2019-10-13T13:59:11.852651+02:00') )
 ]
 
 { #category : #'code-critics' }

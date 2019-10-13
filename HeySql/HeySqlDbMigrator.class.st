@@ -49,15 +49,8 @@ HeySqlDbMigrator class >> createMigrationTemplate: packageName [
 				show:
 					('\\\\"-- Generated code for class: {1}"
 		' format: {c asString}) withCRs.
-			dbVars := c allSuperclasses , {c}
-				collect: [ :f | 
-					(f respondsTo: #dbFields)
-					ifTrue: [ f dbFields splitOn: ' ' ]
-					ifFalse: [ {} ]
-					
-					].
-			vars := (((c allSuperclasses , {c}
-				flatCollect: [ :f | f instVarNames ])
+			dbVars := c dbFields.
+			vars := ((dbVars
 				collect: [ :v | '         ( ''{1}'' -> ''type'')' format: {v asString} ])
 				joinUsing: ' . \') withCRs.
 			table := 'table := \{ \\{1} \\       \} asDictionary. \
