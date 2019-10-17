@@ -13,7 +13,7 @@ HeySql is an attempt to find the right balance between an orm and doing things i
 
 The code is based upon the awesome P3-library for Postgresql.
 
-### This code has been written Pharo Smalltalk
+### This code has been written in Pharo Smalltalk
 
 	- Uses reflection
 	- Adds methods by compiling in runtime (very nice language feature!)
@@ -102,9 +102,75 @@ All data types which are supported by P3 will work fine. Note that this one drop
 
 ### Database migration
 
-Just change the columns with plain P3-sql, and then rerun the generation methods.
+Every projects seems starts with a couple of models and the attitude at the beginning is that these will not change much.
 
-To come: a migration part which connects even more nicely with this library.
+Well, in reality - they will - for sure.
+
+Therefore a good way to handle database changes should be at at the core of every system.
+
+Migrations in HeySql is based on generating methods in an migration object.
+
+First thing is to create your class, that will hold the migrations, ex. MyMigrations.
+
+Then tell HeySql that this class will hold the migrations:
+
+```smalltalk
+HeySqlDbMigrator new: MyMigrations.
+```
+
+Each method will have the timestamp of the creation time as its name.
+
+After this you can create class methods in MyMirations with this three functions:
+
+- HeySqlDbMigrator createMigration
+
+This creates an empty method, ready to be filled in with code.
+
+example:
+
+con := HeySql connection.
+con execute: 'create table, to something sql'
+
+- HeySqlDbMigrator createMigration ClassName
+
+If you have used used the methods "dbFields: "a b c" these use these in the template creation. Otherwise it will use all instance variables as possible database fields.
+
+The method creates a template of this form (like above), based on the class:
+
+```smalltalk
+personTable := {('id' -> 'serial primary key').
+	('forname' -> 'type').
+	('surname' -> 'type') .
+	('companyId' -> integer references company(id)').
+	('createdDate' -> 'timestamp')
+	} asDictionary.
+```
+
+In the template you must change all 'type' to real postgres types, example integer or text.
+
+As in the example variable name of type id, or endsWithId or endsWithDate gives predefined types.
+
+All types can be overwritten as wished.
+ 
+- HeySqlDbMigrator createMigrationPackage
+
+if you run for example 
+
+HeySqlDbMigrator createMigrationPackage 'MyPackage-Models' there will be created templates for all classes in the package.
+
+This might be another good reason for keeping the models in a separate package.
+
+
+### Running the migrations
+
+Simply run HeySqlDbMigrator migrate
+
+A new table will be created in your database, if not this does not already exist.
+
+This table will keep information about last migration date and when you are ready to run new migrations just rerun this method.
+
+This migration runs inside a transaction, so either all methods will be executed or none, if any error encounted.
+
 
 ### Example usage
 
