@@ -55,7 +55,7 @@ And the object will be stored in the database. Same goes for update.
 
 ### Subclassing models
 
-Subclassin for example Person and write an AdminPerson in your models, will work fine.
+Subclassing for example Person and write an AdminPerson in your models, will work fine.
 
 The fields defined with dbFields: '...' in persons will be inherited and created as columns in AdminPerson.
 
