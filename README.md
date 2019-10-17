@@ -53,6 +53,15 @@ person insert.
 
 And the object will be stored in the database. Same goes for update.
 
+### Subclassing models
+
+Subclassin for example Person and write an AdminPerson in your models, will work fine.
+
+The fields defined with dbFields: '...' in persons will be inherited and created as columns in AdminPerson.
+
+If you do not define a dbFields for a class, all instance variables will be used as database columns, included the inherited onces.
+
+
 ### Adding your own functions
 
 It is very easy to add your own queries as well.
@@ -128,8 +137,10 @@ This creates an empty method, ready to be filled in with code.
 
 example:
 
+```smalltalk
 con := HeySql connection.
 con execute: 'create table, to something sql'
+```
 
 - HeySqlDbMigrator createMigration ClassName
 
@@ -156,7 +167,11 @@ All types can be overwritten as wished.
 
 if you run for example 
 
-HeySqlDbMigrator createMigrationPackage 'MyPackage-Models' there will be created templates for all classes in the package.
+```smalltalk
+HeySqlDbMigrator createMigrationPackage 'MyPackage-Models'
+```
+
+there will be created templates for all classes in the package.
 
 This might be another good reason for keeping the models in a separate package.
 
