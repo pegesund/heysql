@@ -249,6 +249,6 @@ Metacello new
 
 ## License and usage
 
-This is BSD-license, use it as you would like.
+This is MIT-license, use it as you would like.
 
 Drop me a line if you use the library for anything - would be cool to know!
