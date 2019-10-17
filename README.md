@@ -230,7 +230,7 @@ testSqlMethodsCreated
 
 ### Implementation and pitfalls
 
-	- Still in version 1-beta.
+	- Still in version 1.1
 	- Variables in the classes must have the exact same name as in the datbase. I consider this as a good coding style and as a feature.
 	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries due to some strange reasons contains $NUM you might get into trouble. Values to be inserted can off course contain these special characters.
 	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritten.
