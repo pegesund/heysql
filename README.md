@@ -1,5 +1,7 @@
 # HeySql - a mini-orm for Pharo Smalltalk
 
+Vesion 1.1
+
 ## Reason
 
 The older I have got, the more I have started to dislike database orms. They are often hard to migrate, they are hard to debug, and they put not needed pressure on the db with insane long joins for doing pretty simple stuff (oh, yes - JPA - I am talking about you!).
