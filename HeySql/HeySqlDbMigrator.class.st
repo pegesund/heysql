@@ -26,7 +26,7 @@ HeySqlDbMigrator class >> createMigration: theClass [
 	^ self createMigrationHelper: theClass .
 ]
 
-{ #category : #db }
+{ #category : #private }
 HeySqlDbMigrator class >> createMigrationHelper: classes [
 	"This creates a migration with the current time as a part of the method name, remark the underscore.
 	If classes is a String, then generate for all classes in package, if a class for that class or nil, just create an empty migration."
@@ -223,7 +223,7 @@ HeySqlDbMigrator class >> new: theClass [
 
 ]
 
-{ #category : #db }
+{ #category : #private }
 HeySqlDbMigrator class >> updateMigrationTable: date [
 	"Updates migration table with current date, creates table if needed"
 

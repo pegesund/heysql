@@ -1,5 +1,7 @@
 # HeySql - a mini-orm for Pharo Smalltalk
 
+Vesion 1.1
+
 ## Reason
 
 The older I have got, the more I have started to dislike database orms. They are often hard to migrate, they are hard to debug, and they put not needed pressure on the db with insane long joins for doing pretty simple stuff (oh, yes - JPA - I am talking about you!).
@@ -13,7 +15,7 @@ HeySql is an attempt to find the right balance between an orm and doing things i
 
 The code is based upon the awesome P3-library for Postgresql.
 
-### This code has been written Pharo Smalltalk
+### This code has been written in Pharo Smalltalk
 
 	- Uses reflection
 	- Adds methods by compiling in runtime (very nice language feature!)
@@ -52,6 +54,15 @@ person insert.
 ```
 
 And the object will be stored in the database. Same goes for update.
+
+### Subclassing models
+
+Subclassing for example Person and write an AdminPerson in your models, will work fine.
+
+The fields defined with dbFields: '...' in persons will be inherited and created as columns in AdminPerson.
+
+If you do not define a dbFields for a class, all instance variables will be used as database columns, included the inherited onces.
+
 
 ### Adding your own functions
 
@@ -102,9 +113,81 @@ All data types which are supported by P3 will work fine. Note that this one drop
 
 ### Database migration
 
-Just change the columns with plain P3-sql, and then rerun the generation methods.
+Every projects seems starts with a couple of models and the attitude at the beginning is that these will not change much.
 
-To come: a migration part which connects even more nicely with this library.
+Well, in reality - they will - for sure.
+
+Therefore a good way to handle database changes should be at at the core of every system.
+
+Migrations in HeySql is based on generating methods in an migration object.
+
+First thing is to create your class, that will hold the migrations, ex. MyMigrations.
+
+Then tell HeySql that this class will hold the migrations:
+
+```smalltalk
+HeySqlDbMigrator new: MyMigrations.
+```
+
+Each method will have the timestamp of the creation time as its name.
+
+After this you can create class methods in MyMirations with this three functions:
+
+- HeySqlDbMigrator createMigration
+
+This creates an empty method, ready to be filled in with code.
+
+example:
+
+```smalltalk
+con := HeySql connection.
+con execute: 'create table, to something sql'
+```
+
+- HeySqlDbMigrator createMigration ClassName
+
+If you have used used the methods "dbFields: "a b c" these use these in the template creation. Otherwise it will use all instance variables as possible database fields.
+
+The method creates a template of this form (like above), based on the class:
+
+```smalltalk
+personTable := {('id' -> 'serial primary key').
+	('forname' -> 'type').
+	('surname' -> 'type') .
+	('companyId' -> integer references company(id)').
+	('createdDate' -> 'timestamp')
+	} asDictionary.
+```
+
+In the template you must change all 'type' to real postgres types, example integer or text.
+
+As in the example variable name of type id, or endsWithId or endsWithDate gives predefined types.
+
+All types can be overwritten as wished.
+ 
+- HeySqlDbMigrator createMigrationPackage
+
+if you run for example 
+
+```smalltalk
+HeySqlDbMigrator createMigrationPackage 'MyPackage-Models'
+```
+
+there will be created templates for all classes in the package.
+
+This might be another good reason for keeping the models in a separate package.
+
+
+### Running the migrations
+
+Simply run HeySqlDbMigrator migrate
+
+A new table will be created in your database, if not this does not already exist.
+
+This table will keep information about last migration date and when you are ready to run new migrations just rerun this method.
+
+This migration runs inside a transaction, so either all methods will be executed or none, if any error encounted.
+
 
 ### Example usage
 
@@ -149,7 +232,7 @@ testSqlMethodsCreated
 
 ### Implementation and pitfalls
 
-	- Still in version 1-beta.
+	- Still in version 1.1
 	- Variables in the classes must have the exact same name as in the datbase. I consider this as a good coding style and as a feature.
 	- I do not parse the sql, but use some simple regexps. Normally this should not be a problem, but if your queries due to some strange reasons contains $NUM you might get into trouble. Values to be inserted can off course contain these special characters.
 	- These methods does actually generate and compile code for you. If you owerwrite these methods and rerun the generation methods your code will be overwritten.
@@ -168,6 +251,6 @@ Metacello new
 
 ## License and usage
 
-This is BSD-license, use it as you would like.
+This is MIT-license, use it as you would like.
 
 Drop me a line if you use the library for anything - would be cool to know!
