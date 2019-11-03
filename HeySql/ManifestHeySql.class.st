@@ -33,6 +33,11 @@ ManifestHeySql class >> ruleRBGlobalVariablesUsageV1FalsePositive [
 ]
 
 { #category : #'code-critics' }
+ManifestHeySql class >> ruleRBLongMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2019-11-03T15:02:00.831036+01:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySql class >> ruleRBNoClassCommentRuleV1FalsePositive [
 	^ #(#(#(#RGClassDefinition #(#HeySql)) #'2019-09-15T12:18:12.149669+02:00') )
 ]

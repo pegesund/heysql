@@ -121,10 +121,22 @@ HeySqlDbMigrator class >> findDbTypeFromName: colname [
 
 	colname = 'id'
 		ifTrue: [ ^ 'serial primary key' ].
-	colname = 'name'
+	(#('name' 'description' 'address' 'email' 'url' 'forename' 'surname' 'password' 'salt') includes: colname)
 		ifTrue: [ ^ 'text' ].	
+	(#('price' 'vat' 'discount' 'total') includes: colname)
+		ifTrue: [ ^ 'numeric' ].	
+	(colname beginsWith: 'zip')
+		ifTrue: [ ^ 'text' ].		
 	(colname endsWith: 'Date')
 		ifTrue: [ ^ 'timestamp' ].
+	(colname endsWith: 'Range')
+		ifTrue: [ ^ 'integer' ].	
+	(colname beginsWith: 'is')
+		ifTrue: [  ((colname at: 3) isUppercase)
+			ifTrue: [ ^ 'boolean' ]].
+	(colname beginsWith: 'has')
+		ifTrue: [  ((colname at: 4) isUppercase)
+			ifTrue: [ ^ 'boolean' ]].
 	(colname endsWith: 'Id')
 		ifTrue: [ ^ 'integer references {1} (id)'
 				format: {(colname copyFrom: 1 to: colname size - 2)} ].
@@ -167,6 +179,7 @@ HeySqlDbMigrator class >> migrate [
 	"migrates database up to current version."
 
 	| start stop |
+	(HeySql connection) execute: 'create table if not exists migrations (id serial unique, mdate text)'.
 	start := (self getCurrentMigrationFromDb) at: 1.
 	stop := self getNow.
 	start >= stop
@@ -206,8 +219,6 @@ HeySqlDbMigrator class >> migratestart: migrateStart to: migrateStop [
 	Note! Library does not check if these migrations allready has been run (will maybe be added soon)
 	"
 
-	"use this to get the instance methods: Person methodDict keys."
-
 	| migrateMethods |
 	migrateMethods := HeySqlMigrationClass class selectors
 		select: [ :m | 
@@ -234,6 +245,5 @@ HeySqlDbMigrator class >> updateMigrationTable: date [
 	update := 'insert into migrations(id, mdate) values (1, ''{1}'') on conflict(id) do update set mdate = ''{1}'''
 		format: {date}.
 	client
-		execute: 'create table if not exists migrations (id serial unique, mdate text)';
 		execute: update
 ]
