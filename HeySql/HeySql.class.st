@@ -325,7 +325,9 @@ HeySql >> id: x [
 
 { #category : #documenting }
 HeySql >> notes [
-	" myDict keysAndValuesDo: [ :key :value | value doSomething ].
+	" 
+	TEST
+	myDict keysAndValuesDo: [ :key :value | value doSomething ].
 	Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3}
 	s := Set new.
 'this is {1} and {2}' regex: '{\d+}' matchesCollect: [ :r |
@@ -353,9 +355,6 @@ x := (ZnCharacterEncoder newForEncoding: 'utf8')
 (ZnCharacterEncoder newForEncoding: 'utf8') decodeBytes: x		
 	
 	"
-	
-
-	
 
 	<wikiStyleHelp: #'The name of the book I want to write'>
 	
