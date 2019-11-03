@@ -121,6 +121,8 @@ HeySqlDbMigrator class >> findDbTypeFromName: colname [
 
 	colname = 'id'
 		ifTrue: [ ^ 'serial primary key' ].
+	colname = 'name'
+		ifTrue: [ ^ 'text' ].	
 	(colname endsWith: 'Date')
 		ifTrue: [ ^ 'timestamp' ].
 	(colname endsWith: 'Id')
