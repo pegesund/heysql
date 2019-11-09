@@ -20,6 +20,7 @@ Class {
 	#classVars : [
 		'Client',
 		'DbFields',
+		'DbFieldsLowercased',
 		'InsertDb',
 		'Statements',
 		'UpdateDb'
@@ -96,6 +97,17 @@ HeySql class >> dbFields: allFields [
 	fields := (allFields splitOn: ' ') asSet.
 	DbFields at: self asString put: fields asArray.
 	self generateGettersAndSetters
+]
+
+{ #category : #'private ' }
+HeySql class >> dbFieldsLc: dbLc theClass: theClass [
+	"translates between lower case results in pg and method names with upper case. populates class lazyly"
+
+	(DbFieldsLowercased includesKey: theClass)
+		ifFalse: [ (DbFields at: theClass)
+				do: [ :key | DbFieldsLowercased at: key asLowercase put: key ].
+				DbFieldsLowercased at: 'id' put: 'id' ].
+	^ DbFieldsLowercased at: dbLc
 ]
 
 { #category : #connection }
@@ -281,6 +293,7 @@ HeySql class >> init [
 
 	Statements := Dictionary new.
 	DbFields := Dictionary new.
+	DbFieldsLowercased := Dictionary new.
 ]
 
 { #category : #db }
@@ -305,7 +318,7 @@ HeySql class >> packageDbSetup: packageName [
 HeySql class >> toObject: rSet [
 	"Convert P3-result to an object. This is done by reflecion - iterating over all fields."
 
-	| methodFields manyObjects res |
+	| methodFields manyObjects res theClassStr |
 	methodFields := rSet data
 		collect: [ :row | 
 			(rSet descriptions collect: [ :f | f fieldName ])
@@ -313,6 +326,7 @@ HeySql class >> toObject: rSet [
 				collect: [ :f1 :f2 | 
 					{f1.
 					f2} ] ].
+	theClassStr := self asString.
 	manyObjects := methodFields
 		collect: [ :row | 
 			| obj |
@@ -320,11 +334,11 @@ HeySql class >> toObject: rSet [
 			row
 				do: [ :field | 
 					obj
-						perform: (field first , ':') asSymbol
+						perform: ((self dbFieldsLc: field first theClass: theClassStr ) , ':') asSymbol
 						withArguments: {field second} ].
 			obj ].
-	(manyObjects size = 0	)
-		ifTrue: [ ^ 'ok' ].
+	manyObjects isEmpty
+		ifTrue: [ ^ nil ].
 	res := manyObjects size > 1
 		ifTrue: [ manyObjects ]
 		ifFalse: [ manyObjects first ].
