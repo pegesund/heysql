@@ -63,7 +63,7 @@ HeySqlDbMigrator class >> createMigrationPackage: packageName [
 	Remark that there are no dependency analysys between the tables, so the output order of the tables is random 
 	"
 
-	| classes manyTables migrateTime tableTemplate method |
+	| classes manyTables migrateTime method |
 	classes := Smalltalk allClassesAndTraits
 		select: [ :theClass | 
 			| className |

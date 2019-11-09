@@ -281,6 +281,24 @@ HeySql class >> init [
 	self dbFields: 'id'.
 ]
 
+{ #category : #db }
+HeySql class >> packageDbSetup: packageName [
+	"Iterates over all classes in a package and calls dbSetup method on the method if found"
+
+	| classes |
+	classes := Smalltalk allClassesAndTraits
+		select: [ :theClass | 
+			| className |
+			className := theClass category asString.
+			(className beginsWith: packageName)
+				& ((className findString: 'Manifest') = 0) ].
+	classes
+		do: [ :theClass | 
+			Transcript show: theClass.
+			(theClass respondsTo: #dbSetup)
+				ifTrue: [ theClass dbSetup ] ]
+]
+
 { #category : #'private ' }
 HeySql class >> toObject: rSet [
 	"Convert P3-result to an object. This is done by reflecion - iterating over all fields."
