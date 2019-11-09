@@ -69,7 +69,7 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 
 { #category : #accessing }
 HeySql class >> dbFields [
-	"returns the fields to be handled by heysql as a string. Id the dbFields: function is not called, we use all instance variables from the class, including superclasses of type heysql"
+	"returns the fields to be handled by heysql as a string. If the dbFields: function is not called, we use all instance variables from the class, including superclasses of type heysql"
 
 	| key |
 	key := self asString.
@@ -82,7 +82,7 @@ HeySql class >> dbFields [
 					(DbFields includesKey: c asString)
 						ifTrue: [ DbFields at: c asString ]
 						ifFalse: [ c instVarNames collect: [ :v | v asString ] ] ].
-			DbFields at: key put: dbfields asSet asSortedCollection  ].
+			DbFields at: key put: dbfields asSet asSortedCollection ].
 	^ DbFields at: key
 ]
 
@@ -91,8 +91,8 @@ HeySql class >> dbFields: allFields [
 	"Set fields which also have column in database"
 
 	| fields |
-	fields := allFields splitOn: ' '.
-	DbFields at: (self asString) put: fields.
+	fields := (allFields splitOn: ' ') asSet.
+	DbFields at: self asString put: fields asArray.
 	self generateGettersAndSetters
 ]
 
@@ -278,7 +278,6 @@ HeySql class >> init [
 
 	Statements := Dictionary new.
 	DbFields := Dictionary new.
-	self dbFields: 'id'.
 ]
 
 { #category : #db }
