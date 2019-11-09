@@ -96,7 +96,8 @@ HeySqlDbMigrator class >> createMigrationTempateOne: theClass [
 	comment := ('\\"-- Generated code for class: {1}"
 	
 		' format: {theClass asString}) withCRs.
-	dbVars := theClass dbFields.
+	dbVars := (theClass dbFields) asSet.
+	dbVars add: 'id'.
 	vars := ((dbVars
 		collect: [ :v | 
 			'         ( ''{1}'' -> ''{2}'')'

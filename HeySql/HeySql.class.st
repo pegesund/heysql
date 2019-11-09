@@ -82,7 +82,9 @@ HeySql class >> dbFields [
 					(DbFields includesKey: c asString)
 						ifTrue: [ DbFields at: c asString ]
 						ifFalse: [ c instVarNames collect: [ :v | v asString ] ] ].
-			DbFields at: key put: dbfields asSet asSortedCollection ].
+			dbfields := dbfields asSet asSortedCollection.
+			dbfields remove: 'id'.
+			DbFields at: key put: dbfields ].
 	^ DbFields at: key
 ]
 
