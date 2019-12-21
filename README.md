@@ -33,7 +33,7 @@ HeySql init
 
 ### Automaticall generated functionality
 
-After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname). "person" is the name of the db-table.
+After creating the class, you can just write this piece of code (say you have a class called Person with object vars forname and surname). "person" is the name of the db-table.
 
 
 
@@ -45,7 +45,7 @@ You will now have this functionality for the class:
 So you can do:
 
 ``` smalltalk
-person := HeySqlPerson new.
+person := Person new.
 person forname: 'peter'.
 person insert.
 ```
@@ -59,7 +59,7 @@ dbFields can be used to specify which fields that should be used - if not  defau
 The dbFields method must be called before the first insert/updates functions are used, in case not it will not have an impact.
 
 ```smalltalk
-	HeySqlPerson dbFields: 'forname surname'.
+	Person dbFields: 'forname surname'.
 ```
 
 ### Subclassing models
@@ -82,7 +82,7 @@ It is very easy to add your own queries as well.
 			('personsFindByForename, surname'
 				-> 'select * from person where forname = $1 and surname = $2').
 			('byId' -> 'select * from person where id = $1')}.
-	HeySqlPerson generateSqlMethods: dict.
+	Person generateSqlMethods: dict.
 ```
 
 You will now have access to the new defined methods.
@@ -92,9 +92,9 @@ Note that the number of $'s must match the number of string separated functions 
 The return of a generated query will be the objects of the defined type, in this case of person-type. If we get one result, this is returned - if we get several the result is an array.
 
 ```smalltalk
-persons := HeySqlPerson personsFindall.
-person := HeySqlPerson byId: 1.
-persons := HeySqlPerson personsFindByForename: 'petter' surname: 'egesund'
+persons := Person personsFindall.
+person := Person byId: 1.
+persons := Person personsFindByForename: 'petter' surname: 'egesund'
 ```
 
 Doing queries this way has these advantages:
@@ -205,15 +205,14 @@ testSqlMethodsCreated
 	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
 
 	| dict person person2 person3 |
-	HeySqlPerson init.
-	HeySqlPerson dbFields: 'forname surname'.
-	HeySqlPerson generateSimpleDbOperations: 'person'.
-	person := HeySqlPerson new.
+	HeySql init.
+	Person dbFields: 'forname surname'.
+	person := Person new.
 	person forname: 'petter'.
 	person surname: 'egesund'.
 	person insert.
 	self assert: [ person id == 1 ].
-	person2 := HeySqlPerson new.
+	person2 := Person new.
 	person2 forname: 'petter2'.
 	person2 surname: 'egesund2'.
 	person2 insert.
@@ -224,14 +223,14 @@ testSqlMethodsCreated
 			('personsFindByForename, surname'
 				-> 'select * from person where forname = $1 and surname = $2').
 			('byId' -> 'select * from person where id = $1')}.
-	HeySqlPerson generateSqlMethods: dict.
-	self assert: [ HeySqlPerson personsFindall size == 2 ].
+	Person generateSqlMethods: dict.
+	self assert: [ Person personsFindall size == 2 ].
 	self
-		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
-				isKindOf: HeySqlPerson ].
+		assert: [ (Person personsFindByForename: 'petter' surname: 'egesund')
+				isKindOf: lPerson ].
 	person forname: 'hans petter'.
 	person update.
-	person3 := HeySqlPerson byId: 1.
+	person3 := Person byId: 1.
 	self assert: [ person3 id = 1 ].
 	self assert: [ person3 forname = 'hans petter' ]
 ```
