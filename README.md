@@ -35,12 +35,7 @@ HeySql init
 
 After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname). "person" is the name of the db-table.
 
-```smalltalk
-	HeySqlPerson dbFields: 'forname surname'.
-	
-	(dbFields can be used to specify which fields that shoul be used - if not used default is to use all fields as db-fields)
-	The dbFields method must be called before the first insert/updates functions are used, in case not it will not have an impact.
-```
+
 
 You will now have this functionality for the class:
 
@@ -56,6 +51,16 @@ person insert.
 ```
 
 And the object will be stored in the database. Same goes for update.
+
+### Specifying which instance side variable which have counterparts in the database table
+
+dbFields can be used to specify which fields that should be used - if not  default is to use all fields as db-fields
+
+The dbFields method must be called before the first insert/updates functions are used, in case not it will not have an impact.
+
+```smalltalk
+	HeySqlPerson dbFields: 'forname surname'.
+```
 
 ### Subclassing models
 
