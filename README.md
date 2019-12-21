@@ -1,6 +1,6 @@
 # HeySql - a mini-orm for Pharo Smalltalk
 
-Vesion 1.1
+Vesion 1.3
 
 ## Reason
 
@@ -28,6 +28,7 @@ If you are intrested in the magnificent smalltalk language, you can read more ab
 ```smalltalk
 client := P3Client new url: 'psql://test@localhost'.
 HeySql connect: client
+HeySql init
 ```
 
 ### Automaticall generated functionality
@@ -35,9 +36,10 @@ HeySql connect: client
 After creating the class, you can just write this piece of code (say you have a class called HeySqlPerson with object vars forname and surname). "person" is the name of the db-table.
 
 ```smalltalk
-	HeySqlPerson init.
 	HeySqlPerson dbFields: 'forname surname'.
-	HeySqlPerson generateSimpleDbOperations: 'person'.
+	
+	(dbFields can be used to specify which fields that shoul be used - if not used default is to use all fields as db-fields)
+	The dbFields method must be called before the first insert/updates functions are used, in case not it will not have an impact.
 ```
 
 You will now have this functionality for the class:
