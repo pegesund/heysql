@@ -15,11 +15,11 @@ HeySqlTest >> setUp [
 	super setUp.
 	client := P3Client new url: 'psql://foxface:foxface@localhost'.
 	HeySql connect: client.
-	client execute: 'drop table if exists person '.
+	client execute: 'drop table if exists heysqlperson '.
 	personTable := {('id' -> 'serial').
 	('forename' -> 'text').
 	('surname' -> 'text')} asDictionary.
-	HeySql createTable: 'person' tableDict: personTable
+	HeySql createTable: 'heysqlperson' tableDict: personTable
 ]
 
 { #category : #running }
@@ -28,18 +28,6 @@ HeySqlTest >> tearDown [
 
 	HeySqlPerson disConnect.
 	super tearDown
-]
-
-{ #category : #tests }
-HeySqlTest >> testMethodsCreated [
-	"comment stating purpose of instance-side message, should not fail :)"
-
-	
-]
-
-{ #category : #tests }
-HeySqlTest >> testMigration [
-	"comment stating purpose of instance-side message"
 ]
 
 { #category : #tests }
@@ -75,25 +63,25 @@ HeySqlTest >> testSqlMethodsCreated [
 	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
 
 	| dict person person2 person3 |
-	HeySqlPerson init.
+	HeySql init.
 	HeySqlPerson dbFields: 'forename surname'.
-	HeySqlPerson generateSimpleDbOperations: 'person'.
+	(HeySql connection) execute: 'delete from heysqlperson'. 
 	person := HeySqlPerson new.
 	person forename: 'petter'.
 	person surname: 'egesund'.
 	person insert.
-	self assert: [ person id == 1 ].
+	self assert: [ person id >= 1 ].
 	person2 := HeySqlPerson new.
 	person2 forename: 'petter2'.
 	person2 surname: 'egesund2'.
 	person2 insert.
-	self assert: [ person2 id == 2 ].
+	self assert: [ person2 id > person id ].
 	dict := Dictionary
 		newFrom:
-			{('personsFindall' -> 'select * from person').
+			{('personsFindall' -> 'select * from heysqlperson').
 			('personsFindByForename, surname'
-				-> 'select * from person where forename = $1 and surname = $2').
-			('byId' -> 'select * from person where id = $1')}.
+				-> 'select * from heysqlperson where forename = $1 and surname = $2').
+			('byId' -> 'select * from heysqlperson where id = $1')}.
 	HeySqlPerson generateSqlMethods: dict.
 	self assert: [ HeySqlPerson personsFindall size == 2 ].
 	self
@@ -101,7 +89,7 @@ HeySqlTest >> testSqlMethodsCreated [
 				isKindOf: HeySqlPerson ].
 	person forename: 'hans petter'.
 	person update.
-	person3 := HeySqlPerson byId: 1.
-	self assert: [ person3 id = 1 ].
+	person3 := HeySqlPerson byId: person id.
+	self assert: [ person3 id == person id ].
 	self assert: [ person3 forename = 'hans petter' ]
 ]
