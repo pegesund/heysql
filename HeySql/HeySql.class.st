@@ -54,7 +54,7 @@ HeySql class >> theDbFields [
 ]
 
 { #category : #accessing }
-HeySql class >> TheDbFieldsLowercased [
+HeySql class >> theDbFieldsLowercased [
 	"method to expose DbFieldsLowercased belonging to self"
 	^ DbFieldsLowercased at: (self name).
 
