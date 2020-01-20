@@ -359,9 +359,9 @@ HeySql >> insert [
 	values := self class dbFields
 		collect: [ :field | self perform: field asSymbol ].
 	statementName := 'heysql_insert_' , self className .
-	(self theStatements includesKey: statementName)
+	(self class theStatements includesKey: statementName)
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
-	statement := self theStatements at: statementName.
+	statement := self class theStatements at: statementName.
 	res := statement query: values.
 	newId := (res data at: 1) at: 1.
 	self id: newId.
@@ -413,9 +413,9 @@ HeySql >> update [
 	fields := self class dbFields.
 	values := fields collect: [ :field | self perform: field asSymbol ].
 	statementName := 'heysql_update_' , self className .
-	(self theStatements includesKey: statementName)
+	(self class theStatements includesKey: statementName)
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
-	statement := self theStatements at: statementName.
+	statement := self class theStatements at: statementName.
 	res := statement query: values , {id}.
 	^ res
 ]
