@@ -235,7 +235,7 @@ HeySql class >> generateSqlMethods: dict [
 				format:
 					{methodNameMaybeParams.
 					executeParams.
-					methodNames}.
+					(methodNames , '_', (self asString))}.
 			self class compile: methodString classified: 'accessor' ]
 ]
 
@@ -245,7 +245,7 @@ HeySql class >> generateSqlStatement: methodName sql: sql [
 
 	| statement |
 	statement := Client prepare: sql.
-	Statements at: methodName put: statement
+	Statements at: (methodName , '_', (self asString)) put: statement
 ]
 
 { #category : #initialization }
