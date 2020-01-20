@@ -43,21 +43,21 @@ HeySql class >> connection [
 { #category : #accessing }
 HeySql class >> statements [
 	"method to expose Statements belonging to self"
-	^ Statements :at (self name).
+	^ Statements at: (self name).
 
 ]
 
 { #category : #accessing }
 HeySql class >> dbFields [
 	"method to expose DbFields belonging to self"
-	^ DbFields :at (self name).
+	^ DbFields at: (self name).
 
 ]
 
 { #category : #accessing }
 HeySql class >> dbFieldsLowercased [
 	"method to expose DbFieldsLowercased belonging to self"
-	^ DbFieldsLowercased :at (self name).
+	^ DbFieldsLowercased at: (self name).
 
 ]
 
