@@ -18,6 +18,11 @@ ManifestHeySqlTests class >> ruleRBBadMessageRuleV1FalsePositive [
 ]
 
 { #category : #'code-critics' }
+ManifestHeySqlTests class >> ruleRBClassNotReferencedRuleV1FalsePositive [
+	^ #(#(#(#RGClassDefinition #(#HeySqlLang)) #'2020-01-21T08:34:18.048718+01:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySqlTests class >> ruleRBCodeCruftLeftInMethodsRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#'HeySqlTest class' #setUp #true)) #'2019-09-21T14:55:49.089358+02:00') #(#(#RGMethodDefinition #(#HeySqlPerson #setUp #false)) #'2019-09-21T15:04:24.350769+02:00') #(#(#RGMethodDefinition #(#HeySqlTest #setUp #false)) #'2019-09-21T15:06:34.849033+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlMigrations class' #HeySqlMigrations)) #'2019-10-13T00:33:42.701056+02:00') )
 ]
@@ -29,5 +34,5 @@ ManifestHeySqlTests class >> ruleRBLongMethodsRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySqlTests class >> ruleRBNoClassCommentRuleV1FalsePositive [
-	^ #(#(#(#RGClassDefinition #(#HeySqlPerson)) #'2019-09-21T15:28:25.037288+02:00') )
+	^ #(#(#(#RGClassDefinition #(#HeySqlPerson)) #'2019-09-21T15:28:25.037288+02:00') #(#(#RGClassDefinition #(#HeySqlLang)) #'2020-01-21T08:34:08.70062+01:00') )
 ]

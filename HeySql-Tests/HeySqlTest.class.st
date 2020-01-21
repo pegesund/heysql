@@ -11,15 +11,21 @@ Class {
 HeySqlTest >> setUp [
 	"set up client and create test object"
 
-	| client personTable |
+	| client personTable langTable|
 	super setUp.
 	client := P3Client new url: 'psql://foxface:foxface@localhost'.
 	HeySql connect: client.
 	client execute: 'drop table if exists heysqlperson '.
+	client execute: 'drop table if exists heysqllang'.
 	personTable := {('id' -> 'serial').
 	('forename' -> 'text').
 	('surname' -> 'text')} asDictionary.
-	HeySql createTable: 'heysqlperson' tableDict: personTable
+	HeySql createTable: 'heysqlperson' tableDict: personTable.
+	langTable := {('id' -> 'serial').
+	('langName' -> 'text').
+	('country' -> 'text')} asDictionary.
+	HeySql createTable: 'heysqllang' tableDict: langTable.
+	
 ]
 
 { #category : #running }
@@ -62,7 +68,7 @@ HeySqlTest >> testPersonCreated [
 HeySqlTest >> testSqlMethodsCreated [
 	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
 
-	| dict person person2 person3 |
+	| dict person person2 person3 lang |
 	HeySql init.
 	HeySqlPerson dbFields: 'forename surname'.
 	(HeySql connection) execute: 'delete from heysqlperson'. 
@@ -79,6 +85,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	dict := Dictionary
 		newFrom:
 			{('personsFindall' -> 'select * from heysqlperson').
+			 ('findAll' -> 'select * from heysqlperson where id <> -1').			
 			('personsFindByForename, surname'
 				-> 'select * from heysqlperson where forename = $1 and surname = $2').
 			('byId' -> 'select * from heysqlperson where id = $1')}.
@@ -91,5 +98,24 @@ HeySqlTest >> testSqlMethodsCreated [
 	person update.
 	person3 := HeySqlPerson byId: person id.
 	self assert: [ person3 id == person id ].
-	self assert: [ person3 forename = 'hans petter' ]
+	self assert: [ person3 forename = 'hans petter' ].
+	
+	(HeySql connection) execute: 'delete from heysqllang'. 
+	HeySqlLang generateGettersAndSetters.
+	lang := HeySqlLang new.
+	lang langName: 'norwegian'.
+	lang country: 'norway'.
+	lang insert.	
+		
+	dict := Dictionary
+		newFrom:
+			{('findAll' -> 'select * from heysqllang').			
+			}.		
+	HeySqlLang generateSqlMethods: dict.
+	
+	self assert: [  HeySqlPerson findAll size == 2 ].
+	self assert: [ HeySqlLang findAll langName  = 'norwegian'].
+	self assert: [  HeySqlPerson findAll size == 2 ].
+	self assert: [ HeySqlLang findAll langName  = 'norwegian'].
+
 ]
