@@ -103,7 +103,7 @@ HeySqlDbMigrator class >> createMigrationTempateOne: theClass [
 			'         ( ''{1}'' -> ''{2}'')'
 				format:
 					{v asString.
-					(self findDbTypeFromName: v asString)} ]) joinUsing: ' . \')
+					(self findDbTypeFromName: v asString)} ]) asArray joinUsing: ' . \')
 		withCRs.
 	table := 'table := \{ \\{1} \\       \} asDictionary. \
 			
