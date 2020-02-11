@@ -64,7 +64,7 @@ HeySqlTest >> testPersonCreated [
 
 { #category : #tests }
 HeySqlTest >> testSqlMethodsCreated [
-	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
+	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result. make sure that all before any insert, update or use of sql, all sql must be declared."
 
 	| dict person person2 person3 |
 	HeySql init: 'psql://foxface:foxface@localhost'.
