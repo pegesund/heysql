@@ -11,12 +11,13 @@ HeysqlMigrateTest >> testMigrateSimple [
 	| client lastMigration lastMigrationDb |
 	HeySqlDbMigrator new: HeySqlMigrations.
 	HeySqlDbMigrator updateMigrationTable: 'dummy'.
-	client := HeySql connection.
+	client := P3Client new url: 'psql://foxface:foxface@localhost'.
 	client execute: 'delete from migrations'.
 	HeySqlDbMigrator createMigration.
 	lastMigration := HeySqlDbMigrator createMigration.
 	HeySqlDbMigrator migrate.
 	lastMigrationDb := (client
 		query: 'select mdate from migrations where id = 1') data at: 1.
-	self assert: [ (lastMigrationDb at: 1) = lastMigration ]
+	self assert: [ (lastMigrationDb at: 1) = lastMigration ].
+	client close.
 ]

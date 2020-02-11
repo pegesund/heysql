@@ -103,7 +103,7 @@ HeySqlDbMigrator class >> createMigrationTempateOne: theClass [
 			'         ( ''{1}'' -> ''{2}'')'
 				format:
 					{v asString.
-					(self findDbTypeFromName: v asString)} ]) asArray joinUsing: ' . \')
+					(self findDbTypeFromName: v asString)} ]) joinUsing: ' . \')
 		withCRs.
 	table := 'table := \{ \\{1} \\       \} asDictionary. \
 			
@@ -157,12 +157,14 @@ HeySqlDbMigrator class >> forceMigrateOne: methodName [
 HeySqlDbMigrator class >> getCurrentMigrationFromDb [
 	"get the latest migration date from the db"
 
-	| client res |
-	client := HeySql connection.
-	res := (client query: 'select mdate from migrations where id = 1')
-		data.
-	res isEmpty
-		ifTrue: [ ^ #('0') ].
+	| res |
+	res := nil.
+	HeySql getPool
+		withConnection: [ :client | 
+			res := (client query: 'select mdate from migrations where id = 1')
+				data.
+			res isEmpty
+				ifTrue: [ ^ #('0') ] ].
 	^ res at: 1
 ]
 
@@ -180,8 +182,10 @@ HeySqlDbMigrator class >> migrate [
 	"migrates database up to current version."
 
 	| start stop |
-	(HeySql connection) execute: 'create table if not exists migrations (id serial unique, mdate text)'.
-	start := (self getCurrentMigrationFromDb) at: 1.
+	HeySql getPool
+		withConnection: [ :client | client 
+		execute: 'create table if not exists migrations (id serial unique, mdate text)'. ].
+	start := self getCurrentMigrationFromDb at: 1.
 	stop := self getNow.
 	start >= stop
 		ifTrue: [ ^ false ].
@@ -194,11 +198,12 @@ HeySqlDbMigrator class >> migrate [
 HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	"Migrate one or many methods"
 
-	| client |
+	| |
 	Transcript
 		show: 'Doing migration';
 		cr.
-	client := HeySql connection.
+HeySql getPool
+		withConnection: [ :client | 		
 	client execute: 'begin transaction'.
 	[ migrateMethods asSortedCollection
 		do: [ :method | HeySqlMigrationClass perform: method ] ]
@@ -209,7 +214,8 @@ HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	client execute: 'commit;'.
 	Transcript
 		show: 'Done migration - success';
-		cr
+		cr 
+		]
 ]
 
 { #category : #private }
@@ -241,10 +247,10 @@ HeySqlDbMigrator class >> new: theClass [
 HeySqlDbMigrator class >> updateMigrationTable: date [
 	"Updates migration table with current date, creates table if needed"
 
-	| client update |
-	client := HeySql connection.
+	| update |
+	HeySql getPool
+		withConnection: [ :client | 
 	update := 'insert into migrations(id, mdate) values (1, ''{1}'') on conflict(id) do update set mdate = ''{1}'''
 		format: {date}.
-	client
-		execute: update
+	client execute: update ]
 ]

@@ -4,6 +4,9 @@ A HeySqlTest is a test class for testing the behavior of HeySql
 Class {
 	#name : #HeySqlTest,
 	#superclass : #TestCase,
+	#classVars : [
+		'Client'
+	],
 	#category : #'HeySql-Tests-Initialize'
 }
 
@@ -11,28 +14,23 @@ Class {
 HeySqlTest >> setUp [
 	"set up client and create test object"
 
-	| client personTable langTable|
+	| personTable |
 	super setUp.
-	client := P3Client new url: 'psql://foxface:foxface@localhost'.
-	HeySql connect: client.
-	client execute: 'drop table if exists heysqlperson '.
-	client execute: 'drop table if exists heysqllang'.
+	HeySql init: 'psql://foxface:foxface@localhost'.
+	Client := P3Client new url: 'psql://foxface:foxface@localhost'.
+	Client execute: 'drop table if exists heysqlperson '.
 	personTable := {('id' -> 'serial').
 	('forename' -> 'text').
 	('surname' -> 'text')} asDictionary.
-	HeySql createTable: 'heysqlperson' tableDict: personTable.
-	langTable := {('id' -> 'serial').
-	('langName' -> 'text').
-	('country' -> 'text')} asDictionary.
-	HeySql createTable: 'heysqllang' tableDict: langTable.
-	
+	HeySql createTable: 'heysqlperson' tableDict: personTable
 ]
 
 { #category : #running }
 HeySqlTest >> tearDown [
 	"End of tests"
 
-	HeySqlPerson disConnect.
+	Client close.
+	HeySql closePool .
 	super tearDown
 ]
 
@@ -66,12 +64,20 @@ HeySqlTest >> testPersonCreated [
 
 { #category : #tests }
 HeySqlTest >> testSqlMethodsCreated [
-	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result"
+	"check that insert works and that it returns correct new id. check that correct sql statements are created for the different methods, and that these give correct result. make sure that all before any insert, update or use of sql, all sql must be declared."
 
-	| dict person person2 person3 lang |
-	HeySql init.
+	| dict person person2 person3 |
+	HeySql init: 'psql://foxface:foxface@localhost'.
 	HeySqlPerson dbFields: 'forename surname'.
-	(HeySql connection) execute: 'delete from heysqlperson'. 
+	Client execute: 'delete from heysqlperson'.
+	dict := Dictionary
+		newFrom:
+			{('personsFindall' -> 'select * from heysqlperson').
+			('personsFindByForename, surname'
+				-> 'select * from heysqlperson where forename = $1 and surname = $2').
+			('byId' -> 'select * from heysqlperson where id = $1')}.
+	HeySqlPerson generateSqlMethods: dict.
+	HeySqlPerson generateGettersAndSetters.
 	person := HeySqlPerson new.
 	person forename: 'petter'.
 	person surname: 'egesund'.
@@ -82,14 +88,6 @@ HeySqlTest >> testSqlMethodsCreated [
 	person2 surname: 'egesund2'.
 	person2 insert.
 	self assert: [ person2 id > person id ].
-	dict := Dictionary
-		newFrom:
-			{('personsFindall' -> 'select * from heysqlperson').
-			 ('findAll' -> 'select * from heysqlperson where id <> -1').			
-			('personsFindByForename, surname'
-				-> 'select * from heysqlperson where forename = $1 and surname = $2').
-			('byId' -> 'select * from heysqlperson where id = $1')}.
-	HeySqlPerson generateSqlMethods: dict.
 	self assert: [ HeySqlPerson personsFindall size == 2 ].
 	self
 		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')
@@ -99,23 +97,5 @@ HeySqlTest >> testSqlMethodsCreated [
 	person3 := HeySqlPerson byId: person id.
 	self assert: [ person3 id == person id ].
 	self assert: [ person3 forename = 'hans petter' ].
-	
-	(HeySql connection) execute: 'delete from heysqllang'. 
-	HeySqlLang generateGettersAndSetters.
-	lang := HeySqlLang new.
-	lang langName: 'norwegian'.
-	lang country: 'norway'.
-	lang insert.	
-		
-	dict := Dictionary
-		newFrom:
-			{('findAll' -> 'select * from heysqllang').			
-			}.		
-	HeySqlLang generateSqlMethods: dict.
-	
-	self assert: [  HeySqlPerson findAll size == 2 ].
-	self assert: [ HeySqlLang findAll langName  = 'norwegian'].
-	self assert: [  HeySqlPerson findAll size == 2 ].
-	self assert: [ HeySqlLang findAll langName  = 'norwegian'].
-
+	HeySql closePool
 ]
