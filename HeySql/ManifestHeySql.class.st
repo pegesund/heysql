@@ -34,7 +34,7 @@ ManifestHeySql class >> ruleRBGlobalVariablesUsageV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBImplementedNotSentRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #packageDbSetup: #true)) #'2019-11-09T11:54:23.261629+01:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #packageDbSetup: #true)) #'2019-11-09T11:54:23.261629+01:00') #(#(#RGMethodDefinition #(#'HeySqlPool class' #init:size: #true)) #'2020-02-09T21:22:10.891422+01:00') #(#(#RGMethodDefinition #(#HeySqlPoolElement #addStatement:sql: #false)) #'2020-02-09T23:18:02.964118+01:00') #(#(#RGMethodDefinition #(#'HeySql class' #getPool #true)) #'2020-02-11T19:46:09.06733+01:00') )
 ]
 
 { #category : #'code-critics' }
@@ -55,6 +55,16 @@ ManifestHeySql class >> ruleRBRefersToClassRuleV1FalsePositive [
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBStringConcatenationRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2019-09-29T20:57:57.09157+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationPackage: #true)) #'2019-10-07T17:56:28.726053+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBTempsReadBeforeWrittenRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#HeySql #update #false)) #'2020-02-11T18:54:33.289957+01:00') #(#(#RGMethodDefinition #(#HeySql #insert #false)) #'2020-02-11T18:54:37.657875+01:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleRBToDoCollectRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlPool class' #init:size: #true)) #'2020-02-09T21:21:30.842655+01:00') )
 ]
 
 { #category : #'code-critics' }
