@@ -231,7 +231,7 @@ HeySql class >> generateSqlStatement: methodName sql: sql [
 	Statements at: methodName , '_' , self asString put: sql
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #db }
 HeySql class >> getPool [
 	^ Pool
 
