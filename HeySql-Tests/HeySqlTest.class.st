@@ -78,6 +78,7 @@ HeySqlTest >> testSqlMethodsCreated [
 			('byId' -> 'select * from heysqlperson where id = $1')}.
 	HeySqlPerson generateSqlMethods: dict.
 	HeySqlPerson generateGettersAndSetters.
+	HeySqlPerson generateSimpleDbOperations: 'heysqlperson'.
 	person := HeySqlPerson new.
 	person forename: 'petter'.
 	person surname: 'egesund'.
