@@ -1,3 +1,6 @@
+"
+Just a test class
+"
 Class {
 	#name : #HeySqlLang,
 	#superclass : #HeySql,

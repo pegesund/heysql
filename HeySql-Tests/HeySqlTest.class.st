@@ -70,15 +70,7 @@ HeySqlTest >> testSqlMethodsCreated [
 	HeySql init: 'psql://foxface:foxface@localhost'.
 	HeySqlPerson dbFields: 'forename surname'.
 	Client execute: 'delete from heysqlperson'.
-	dict := Dictionary
-		newFrom:
-			{('personsFindall' -> 'select * from heysqlperson').
-			('personsFindByForename, surname'
-				-> 'select * from heysqlperson where forename = $1 and surname = $2').
-			('byId' -> 'select * from heysqlperson where id = $1')}.
-	HeySqlPerson generateSqlMethods: dict.
 	HeySqlPerson generateGettersAndSetters.
-	HeySqlPerson generateSimpleDbOperations: 'heysqlperson'.
 	person := HeySqlPerson new.
 	person forename: 'petter'.
 	person surname: 'egesund'.
@@ -89,6 +81,13 @@ HeySqlTest >> testSqlMethodsCreated [
 	person2 surname: 'egesund2'.
 	person2 insert.
 	self assert: [ person2 id > person id ].
+		dict := Dictionary
+		newFrom:
+			{('personsFindall' -> 'select * from heysqlperson').
+			('personsFindByForename, surname'
+				-> 'select * from heysqlperson where forename = $1 and surname = $2').
+			('byId' -> 'select * from heysqlperson where id = $1')}.
+	HeySqlPerson generateSqlMethods: dict.
 	self assert: [ HeySqlPerson personsFindall size == 2 ].
 	self
 		assert: [ (HeySqlPerson personsFindByForename: 'petter' surname: 'egesund')

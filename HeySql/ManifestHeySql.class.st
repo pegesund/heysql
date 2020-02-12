@@ -34,7 +34,7 @@ ManifestHeySql class >> ruleRBGlobalVariablesUsageV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleRBImplementedNotSentRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #packageDbSetup: #true)) #'2019-11-09T11:54:23.261629+01:00') #(#(#RGMethodDefinition #(#'HeySqlPool class' #init:size: #true)) #'2020-02-09T21:22:10.891422+01:00') #(#(#RGMethodDefinition #(#HeySqlPoolElement #addStatement:sql: #false)) #'2020-02-09T23:18:02.964118+01:00') #(#(#RGMethodDefinition #(#'HeySql class' #getPool #true)) #'2020-02-11T19:46:09.06733+01:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #packageDbSetup: #true)) #'2019-11-09T11:54:23.261629+01:00') #(#(#RGMethodDefinition #(#'HeySqlPool class' #init:size: #true)) #'2020-02-09T21:22:10.891422+01:00') #(#(#RGMethodDefinition #(#HeySqlPoolElement #addStatement:sql: #false)) #'2020-02-09T23:18:02.964118+01:00') #(#(#RGMethodDefinition #(#'HeySql class' #getPool #true)) #'2020-02-11T19:46:09.06733+01:00') #(#(#RGMethodDefinition #(#'HeySql class' #executePreparedStatementSafe:values: #true)) #'2020-02-12T21:10:54.85492+01:00') )
 ]
 
 { #category : #'code-critics' }
