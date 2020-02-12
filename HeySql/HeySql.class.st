@@ -294,8 +294,6 @@ HeySql class >> prepareStatements: client [
 	Statements
 		keysAndValuesDo:
 			[ :statementName :sql | | statement |
-			Transcript show: (statementName , ' - ', sql).
-			Transcript cr.
 			[  statement := client preparedStatementNamed: statementName.
 			 	statement close.
 			 ] on: Error do: [ nil ].
