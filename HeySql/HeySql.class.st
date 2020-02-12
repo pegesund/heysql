@@ -112,17 +112,16 @@ HeySql class >> dbFieldsLc: dbLc theClass: theClass [
 { #category : #'private ' }
 HeySql class >> executePreparedStatementSafe: statementName values: values [
 	"executes a prepared statment, generates missing statments if not found"
-	| res statement |		
-   res := nil.			
+	| statement |		
 	Pool withConnection: [ :client | 
 			[ statement := client preparedStatementNamed: statementName.
-			  res := statement query: values ]
+			  ^ statement query: values ]
 		   on: NotFound do: [ 
 				self prepareStatements: client. 
 				statement := client preparedStatementNamed: statementName.
-			   res := statement query: values
+			   ^ statement query: values
 		 ]].
-^ res.
+
 ]
 
 { #category : #'private ' }
@@ -362,16 +361,20 @@ HeySql >> insert [
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
 	Pool withConnection: [ :client | 
 			[ statement := client preparedStatementNamed: statementName.
-			  res := statement query: values  ]
+			  res := statement query: values.
+			  newId := (res data at: 1) at: 1 .
+			  self id: newId.  
+			  ^ res.
+			]
 		   on: NotFound do: [ 
 				self class generateSimpleDbOperations: self getTableName.
 				self class prepareStatements: client. 
 				statement := client preparedStatementNamed: statementName.
-			   res := statement query: values
+			   res := statement query: values.
+			   newId := (res data at: 1) at: 1 .
+			   self id: newId.  
+			   ^ res.
 		 ]].
-		newId := (res data at: 1) at: 1 .
-		self id: newId.
-		^ res
 ]
 
 { #category : #documenting }
