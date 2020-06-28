@@ -410,7 +410,6 @@ x := (ZnCharacterEncoder newForEncoding: 'utf8')
 	
 	"
 
-	<wikiStyleHelp: #'The name of the book I want to write'>
 	
 ]
 
