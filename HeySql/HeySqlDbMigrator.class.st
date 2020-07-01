@@ -181,16 +181,20 @@ HeySqlDbMigrator class >> getNow [
 HeySqlDbMigrator class >> migrate [
 	"migrates database up to current version."
 
-	| start stop |
+	| start stop lastMethod |
 	HeySql getPool
-		withConnection: [ :client | client 
-		execute: 'create table if not exists migrations (id serial unique, mdate text)'. ].
+		withConnection: [ :client | 
+			client
+				execute: 'create table if not exists migrations (id serial unique, mdate text)' ].
 	start := self getCurrentMigrationFromDb at: 1.
 	stop := self getNow.
 	start >= stop
 		ifTrue: [ ^ false ].
-	self migratestart: start to: stop.
-	self updateMigrationTable: stop.
+	lastMethod := self migratestart: start to: stop.
+	lastMethod notNil
+		ifTrue: [ | theTime |
+			theTime := (lastMethod copyFrom: 9 to: 28) asString.
+			self updateMigrationTable: theTime ].
 	^ true
 ]
 
@@ -198,15 +202,16 @@ HeySqlDbMigrator class >> migrate [
 HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	"Migrate one or many methods"
 
-	| |
+	| lastUpdate |
 	Transcript
 		show: 'Doing migration';
 		cr.
 HeySql getPool
 		withConnection: [ :client | 		
 	client execute: 'begin transaction'.
+	lastUpdate := nil.
 	[ migrateMethods asSortedCollection
-		do: [ :method | HeySqlMigrationClass perform: method ] ]
+		do: [ :method | HeySqlMigrationClass perform: method. lastUpdate := method ] ]
 		on: Exception
 		do: [ :ex | 
 			client execute: 'rollback'.
@@ -215,7 +220,8 @@ HeySql getPool
 	Transcript
 		show: 'Done migration - success';
 		cr 
-		]
+		].
+	^ lastUpdate .
 ]
 
 { #category : #private }
@@ -233,7 +239,7 @@ HeySqlDbMigrator class >> migratestart: migrateStart to: migrateStop [
 			t := m asString copyFrom: 9 to: 28.
 			(m asString beginsWith: 'migrate_') & (t >= migrateStart)
 				& (t <= migrateStop) ].
-	self migrateSome: migrateMethods
+	^ (self migrateSome: migrateMethods)
 ]
 
 { #category : #'instance creation' }
