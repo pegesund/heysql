@@ -185,6 +185,7 @@ HeySqlDbMigrator class >> migrate [
 	[ HeySql closePool ]
 		on: Exception
 		do: [ nil ].
+	HeySql pool: (P3ConnectionPool url: (HeySql url)).	
 	HeySql getPool
 		withConnection: [ :client | 
 			client

@@ -21,7 +21,8 @@ Class {
 		'DbFields',
 		'DbFieldsLowercased',
 		'Pool',
-		'Statements'
+		'Statements',
+		'Url'
 	],
 	#category : #'HeySql-Initialize'
 }
@@ -31,13 +32,6 @@ HeySql class >> closePool [
 	Pool close.
 	
 
-
-]
-
-{ #category : #accessing }
-HeySql class >> connection [
-	"return the db connection"
-	^ Client.
 
 ]
 
@@ -268,6 +262,7 @@ HeySql class >> init: url [
 	DbFields := Dictionary new.
 	DbFieldsLowercased := Dictionary new.
 	Pool := P3ConnectionPool url: url.
+	self url: url.
 	Pool configurator: [ :client | self prepareStatements: client ]
 ]
 
@@ -293,6 +288,11 @@ HeySql class >> packageDbSetup: packageName [
 						asLowercase.
 			(theClass respondsTo: #dbSetup)
 				ifTrue: [ theClass dbSetup ] ]
+]
+
+{ #category : #accessing }
+HeySql class >> pool: anObject [
+	Pool := anObject
 ]
 
 { #category : #db }
@@ -348,6 +348,16 @@ HeySql class >> toObject: rSet [
 		ifTrue: [ manyObjects ]
 		ifFalse: [ manyObjects first ].
 	^ res
+]
+
+{ #category : #accessing }
+HeySql class >> url [
+	^ Url
+]
+
+{ #category : #accessing }
+HeySql class >> url: anObject [
+	Url := anObject
 ]
 
 { #category : #db }
