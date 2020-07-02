@@ -182,6 +182,9 @@ HeySqlDbMigrator class >> migrate [
 	"migrates database up to current version."
 
 	| start stop lastMethod |
+	[ HeySql closePool ]
+		on: Exception
+		do: [ nil ].
 	HeySql getPool
 		withConnection: [ :client | 
 			client
@@ -237,9 +240,9 @@ HeySqlDbMigrator class >> migratestart: migrateStart to: migrateStop [
 		select: [ :m | 
 			| t |
 			t := m asString copyFrom: 9 to: 28.
-			(m asString beginsWith: 'migrate_') & (t >= migrateStart)
+			(m asString beginsWith: 'migrate_') & (t > migrateStart)
 				& (t <= migrateStop) ].
-	^ (self migrateSome: migrateMethods)
+	^ self migrateSome: migrateMethods
 ]
 
 { #category : #'instance creation' }

@@ -9,7 +9,12 @@ Class {
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleBadMessageRule2V1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') #(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2020-07-02T19:42:24.535061+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleCodeCruftLeftInMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:21.300929+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -84,7 +89,22 @@ ManifestHeySql class >> ruleRBUtilityMethodsRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleReGlobalVariablesUsageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:27.06862+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2020-06-29T23:30:27.610452+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:27.06862+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2020-06-29T23:30:27.610452+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:29.480836+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleSendsUnknownMessageToGlobalRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrate #true)) #'2020-07-02T21:14:30.05317+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleSentNotImplementedRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:05.794344+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleStringConcatenationRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #generateGettersAndSetters #true)) #'2020-07-02T20:15:31.561453+02:00') )
 ]
 
 { #category : #'code-critics' }

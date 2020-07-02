@@ -138,6 +138,7 @@ HeySql class >> findNumberOfParams: sql [
 HeySql class >> generateGettersAndSetters [
 	"Generete getters and setters for all db-fields. Db-fields should allready be set with DbFields"
 
+	| theObject |
 	self dbFields
 		do: [ :field | 
 			| getter setter |
@@ -152,8 +153,11 @@ HeySql class >> generateGettersAndSetters [
 	    {1} := x.
 		 ^ x.
 	  ' format: {field}.
-			self compile: getter classified: 'accessor'.
-			self compile: setter classified: 'accessor' ]
+			theObject := self new.
+			(theObject respondsTo: (field asSymbol))
+				ifFalse: [ self compile: getter classified: 'accessor' ].
+			(theObject respondsTo: (field, ':') asSymbol)
+				ifFalse: [ self compile: setter classified: 'accessor' ] ]
 ]
 
 { #category : #'private ' }
@@ -281,6 +285,12 @@ HeySql class >> packageDbSetup: packageName [
 	classes
 		do: [ :theClass | 
 			Transcript show: theClass.
+			theClass generateGettersAndSetters.
+			theClass
+				generateSimpleDbOperations:
+					(theClass
+						asString)
+						asLowercase.
 			(theClass respondsTo: #dbSetup)
 				ifTrue: [ theClass dbSetup ] ]
 ]
@@ -297,6 +307,16 @@ HeySql class >> prepareStatements: client [
 			 	statement close.
 			 ] on: Error do: [ nil ].
 			client prepare: sql named: statementName ]
+]
+
+{ #category : #accessing }
+HeySql class >> statements [
+	^ Statements
+]
+
+{ #category : #accessing }
+HeySql class >> statements: anObject [
+	Statements := anObject
 ]
 
 { #category : #'private ' }
