@@ -103,6 +103,12 @@ HeySql class >> dbFieldsLc: dbLc theClass: theClass [
 	^ DbFieldsLowercased at: dbLc
 ]
 
+{ #category : #initialization }
+HeySql class >> dbSetup [
+	"Override this method when creating sql-queries. See docs on github"
+
+]
+
 { #category : #'private ' }
 HeySql class >> executePreparedStatementSafe: statementName values: values [
 	"executes a prepared statment, generates missing statments if not found"
@@ -461,5 +467,22 @@ HeySql >> update [
 				statement := client preparedStatementNamed: statementName.
 			   ^ statement query: values , {id}
 		 ]]. 
+
+]
+
+{ #category : #accessing }
+HeySql >> validate [
+	"Validates the instance variables, return #ok or a dict with the errors"
+	| errs |
+	errs := Dictionary new.
+	self validateRules: errs.
+	errs isEmpty
+		ifTrue: [ ^ #ok ].
+	^ errs
+]
+
+{ #category : #accessing }
+HeySql >> validateRules: errs [
+	"Override this one"
 
 ]
