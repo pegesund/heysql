@@ -13,13 +13,23 @@ ManifestHeySql class >> ruleBadMessageRule2V1FalsePositive [
 ]
 
 { #category : #'code-critics' }
+ManifestHeySql class >> ruleCascadedNextPutAllsRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:26.364206+02:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySql class >> ruleCodeCruftLeftInMethodsRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:21.300929+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:21.300929+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:00:11.773006+02:00') )
 ]
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#HeySql #addSqlMethods: #false)) #'2019-09-22T12:56:23.2247+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #createTable:tableDict: #true)) #'2019-09-24T13:23:08.732412+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #createMigrationPackage: #true)) #'2019-10-13T10:47:31.141202+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #generateSimpleDbOperationInsert: #true)) #'2019-12-21T18:22:25.588399+01:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestHeySql class >> ruleLongMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:08:44.594507+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -104,7 +114,7 @@ ManifestHeySql class >> ruleSentNotImplementedRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleStringConcatenationRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #generateGettersAndSetters #true)) #'2020-07-02T20:15:31.561453+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #generateGettersAndSetters #true)) #'2020-07-02T20:15:31.561453+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:19.946001+02:00') )
 ]
 
 { #category : #'code-critics' }

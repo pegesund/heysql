@@ -103,7 +103,7 @@ HeySqlDbMigrator class >> createMigrationTempateOne: theClass [
 			'         ( ''{1}'' -> ''{2}'')'
 				format:
 					{v asString.
-					(self findDbTypeFromName: v asString)} ]) joinUsing: ' . \')
+					(self findDbTypeFromName: v asString)} ]) asArray joinUsing: ' . \')
 		withCRs.
 	table := 'table := \{ \\{1} \\       \} asDictionary. \
 			
@@ -181,11 +181,11 @@ HeySqlDbMigrator class >> getNow [
 HeySqlDbMigrator class >> migrate [
 	"migrates database up to current version."
 
-	| start stop lastMethod |
+	| start stop |
 	[ HeySql closePool ]
 		on: Exception
 		do: [ nil ].
-	HeySql pool: (P3ConnectionPool url: (HeySql url)).	
+	HeySql pool: (P3ConnectionPool url: HeySql url).
 	HeySql getPool
 		withConnection: [ :client | 
 			client
@@ -194,11 +194,7 @@ HeySqlDbMigrator class >> migrate [
 	stop := self getNow.
 	start >= stop
 		ifTrue: [ ^ false ].
-	lastMethod := self migratestart: start to: stop.
-	lastMethod notNil
-		ifTrue: [ | theTime |
-			theTime := (lastMethod copyFrom: 9 to: 28) asString.
-			self updateMigrationTable: theTime ].
+	self migratestart: start to: stop.
 	^ true
 ]
 
@@ -206,26 +202,51 @@ HeySqlDbMigrator class >> migrate [
 HeySqlDbMigrator class >> migrateSome: migrateMethods [
 	"Migrate one or many methods"
 
-	| lastUpdate |
+	| lastUpdate counter |
+	counter := 0.
 	Transcript
 		show: 'Doing migration';
 		cr.
-HeySql getPool
-		withConnection: [ :client | 		
-	client execute: 'begin transaction'.
-	lastUpdate := nil.
-	[ migrateMethods asSortedCollection
-		do: [ :method | HeySqlMigrationClass perform: method. lastUpdate := method ] ]
-		on: Exception
-		do: [ :ex | 
-			client execute: 'rollback'.
-			ex pass ].
-	client execute: 'commit;'.
-	Transcript
-		show: 'Done migration - success';
-		cr 
-		].
-	^ lastUpdate .
+	HeySql getPool
+		withConnection: [ :client | 
+			HeySql sharedClient: client.
+			Transcript
+				show: 'Starting transaction';
+				cr.
+			client execute: 'begin transaction'.
+			lastUpdate := nil.
+			[ migrateMethods asSortedCollection
+				do: [ :method | 
+					Transcript
+						show: '  Now migrating: ' , method;
+						cr.
+					HeySqlMigrationClass perform: method.
+					lastUpdate := method ] ]
+				on: Exception
+				do: [ :ex | 
+					counter := counter + 1.
+					Transcript
+						show: 'Rolling back migration: ' , ex asString;
+						cr.
+					client execute: 'rollback;'.
+					Transcript
+						show: 'Rollback executed';
+						cr.
+					ex pass.
+					^ nil ].
+			counter = 0
+				ifTrue: [ lastUpdate notNil
+						ifTrue: [ | theTime |
+							theTime := (lastUpdate copyFrom: 9 to: 28) asString.
+							self updateMigrationTable: theTime ].
+					Transcript
+						show: 'Commiting';
+						cr.
+					client execute: 'commit;'.
+					Transcript
+						show: 'Done migration - success';
+						cr ] ].
+	^ lastUpdate
 ]
 
 { #category : #private }

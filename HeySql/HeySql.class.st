@@ -21,6 +21,7 @@ Class {
 		'DbFields',
 		'DbFieldsLowercased',
 		'Pool',
+		'SharedClient',
 		'Statements',
 		'Url'
 	],
@@ -50,7 +51,7 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 
         All P3-types can be used, look them up for a complete list"
 
-	| sqlString |
+	| sqlString client |
 	sqlString := 'create table {1} (' format: {tableName}.
 	tableDict
 		keysAndValuesDo: [ :fieldName :fieldType | 
@@ -58,7 +59,13 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 				format:
 					{fieldName.
 					fieldType} ].
-	Pool withConnection: [ :client |	client execute: sqlString allButLast , ')' ].
+	client := self sharedClient.
+	client connection
+		ifNotNil: [ client execute: sqlString allButLast , ')'.
+			^ nil ].
+	Pool
+		withConnection:
+			[ :clientfromPool | clientfromPool execute: sqlString allButLast , ')' ]
 ]
 
 { #category : #accessing }
@@ -313,6 +320,16 @@ HeySql class >> prepareStatements: client [
 			 	statement close.
 			 ] on: Error do: [ nil ].
 			client prepare: sql named: statementName ]
+]
+
+{ #category : #accessing }
+HeySql class >> sharedClient [
+	^ SharedClient
+]
+
+{ #category : #accessing }
+HeySql class >> sharedClient: anObject [
+	SharedClient := anObject
 ]
 
 { #category : #accessing }
