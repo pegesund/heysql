@@ -60,12 +60,8 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 					{fieldName.
 					fieldType} ].
 	client := self sharedClient.
-	client connection
-		ifNotNil: [ client execute: sqlString allButLast , ')'.
-			^ nil ].
-	Pool
-		withConnection:
-			[ :clientfromPool | clientfromPool execute: sqlString allButLast , ')' ]
+	client execute: sqlString allButLast , ')'.
+
 ]
 
 { #category : #accessing }
