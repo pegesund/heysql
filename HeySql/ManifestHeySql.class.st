@@ -114,7 +114,7 @@ ManifestHeySql class >> ruleSentNotImplementedRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleStringConcatenationRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #generateGettersAndSetters #true)) #'2020-07-02T20:15:31.561453+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:19.946001+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySql class' #generateGettersAndSetters #true)) #'2020-07-02T20:15:31.561453+02:00') #(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:19.946001+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #toObject: #true)) #'2020-07-09T23:52:58.41355+02:00') )
 ]
 
 { #category : #'code-critics' }
