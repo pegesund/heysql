@@ -295,6 +295,12 @@ HeySql class >> getPool [
 
 ]
 
+{ #category : #'private-initialization' }
+HeySql class >> init [
+	"does not do something for now"
+
+]
+
 { #category : #initialization }
 HeySql class >> init: url [
 	"init start variables"
