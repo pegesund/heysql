@@ -421,15 +421,16 @@ HeySql >> asDictionary [
 	"comment stating purpose of instance-side method"
 
 	| vars dict |
-	vars := self class instVarNames.
+	vars := (self class dbFields) collect: [ :v | v asSymbol  ].
 	dict := Dictionary new.
 	vars
 		do: [ :var | 
 			dict
 				at: var asString
-				put: ((self respondsTo: var)
+				put:
+					((self respondsTo: var)
 						ifTrue: [ self perform: var ]
-						ifFalse: [ self instVarNamed: var ])  ].
+						ifFalse: [ self instVarNamed: var ]) ].
 	^ dict
 ]
 
