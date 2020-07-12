@@ -13,6 +13,11 @@ ManifestHeySqlTests class >> ruleGRIvarNeitherReadNorWrittenRuleV1FalsePositive 
 ]
 
 { #category : #'code-critics' }
+ManifestHeySqlTests class >> ruleLongMethodsRuleV1FalsePositive [
+	^ #(#(#(#RGClassDefinition #(#HeySqlTest)) #'2020-07-12T10:59:11.813008+02:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestHeySqlTests class >> ruleRBBadMessageRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#HeySqlTest #testPersonCreated #false)) #'2019-09-21T15:12:13.482765+02:00') #(#(#RGMethodDefinition #(#HeySqlPerson #insert #false)) #'2019-09-30T14:52:25.228352+02:00') #(#(#RGMethodDefinition #(#HeySqlTest #testSqlMethodsCreated #false)) #'2019-09-30T19:22:50.947316+02:00') #(#(#RGMethodDefinition #(#HeySqlPerson #update #false)) #'2019-09-30T19:57:09.325509+02:00') )
 ]

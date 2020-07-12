@@ -40,7 +40,6 @@ HeySql class >> byId: theId [
 		withConnection: [ :client | 
 			[ statement := client preparedStatementNamed: statementName.
 			res := statement query: {theId}.
-			res inspect.
 			^ self toObject: res ]
 				on: NotFound
 				do: [ self generateSimpleDbOperations: self asString asLowercase.
