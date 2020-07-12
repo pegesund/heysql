@@ -9,7 +9,7 @@ Class {
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleBadMessageRule2V1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') #(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2020-07-02T19:42:24.535061+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') #(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2020-07-02T19:42:24.535061+02:00') #(#(#RGMethodDefinition #(#HeySql #asDictionary #false)) #'2020-07-12T13:50:56.075584+02:00') )
 ]
 
 { #category : #'code-critics' }

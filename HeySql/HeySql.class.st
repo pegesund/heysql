@@ -416,6 +416,23 @@ HeySql class >> url: anObject [
 	Url := anObject
 ]
 
+{ #category : #accessing }
+HeySql >> asDictionary [
+	"comment stating purpose of instance-side method"
+
+	| vars dict |
+	vars := self class instVarNames.
+	dict := Dictionary new.
+	vars
+		do: [ :var | 
+			dict
+				at: var asString
+				put: ((self respondsTo: var)
+						ifTrue: [ self perform: var ]
+						ifFalse: [ self instVarNamed: var ])  ].
+	^ dict
+]
+
 { #category : #db }
 HeySql >> getTableName [
 	^ self className .
