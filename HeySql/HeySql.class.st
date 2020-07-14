@@ -491,7 +491,7 @@ HeySql >> insert [
 	| values res newId statementName statement |
 	values := self class dbFields
 		collect: [ :field | self perform: field asSymbol ].
-	statementName := 'heysql_insert_' , self className.
+	statementName := 'heysql_insert_' , self className asLowercase .
 	(Statements includesKey: statementName)
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
 	Pool withConnection: [ :client | 
@@ -555,7 +555,7 @@ HeySql >> update [
 	| values fields statementName statement |
 	fields := self class dbFields.
 	values := fields collect: [ :field | self perform: field asSymbol ].
-	statementName := 'heysql_update_' , self className.
+	statementName := 'heysql_update_' , self className asLowercase .
 	Pool
 		withConnection: [ :client | 
 			[ statement := client preparedStatementNamed: statementName.
