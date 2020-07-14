@@ -339,8 +339,8 @@ HeySql class >> init: url [
 	DbFields := Dictionary new.
 	DbFieldsLowercased := Dictionary new.
 	Pool := P3ConnectionPool url: url.
-	self url: url.
-	Pool configurator: [ :client | self prepareStatements: client ]
+	self url: url
+	
 ]
 
 { #category : #db }
