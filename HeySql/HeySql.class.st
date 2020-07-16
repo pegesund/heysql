@@ -406,6 +406,17 @@ HeySql class >> statements: anObject [
 	Statements := anObject
 ]
 
+{ #category : #transformations }
+HeySql class >> toJsonDictionary: res [
+	"Transform heysql-result to a dictkonary in a json-safe way"
+
+	(res isKindOf: self)
+		ifTrue: [ ^ res asDictionary ].
+	(res isKindOf: Collection)
+		ifTrue: [ ^ res collect: [ :r | r asDictionary ] ].
+	^ {('res' -> 'not found')} asDictionary
+]
+
 { #category : #'private ' }
 HeySql class >> toObject: rSet [
 	"Convert P3-result to an object. This is done by reflecion - iterating over all fields."
