@@ -358,11 +358,8 @@ HeySql class >> packageDbSetup: packageName [
 		do: [ :theClass | 
 			Transcript show: theClass.
 			theClass generateGettersAndSetters.
-			theClass
-				generateSimpleDbOperations:
-					(theClass
-						asString)
-						asLowercase.
+			((theClass new) isKindOf: Generic)
+				ifFalse: [ theClass generateSimpleDbOperations: theClass asString asLowercase ].
 			(theClass respondsTo: #dbSetup)
 				ifTrue: [ theClass dbSetup ] ]
 ]
