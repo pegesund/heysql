@@ -9,7 +9,7 @@ Class {
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleBadMessageRule2V1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') #(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2020-07-02T19:42:24.535061+02:00') #(#(#RGMethodDefinition #(#HeySql #asDictionary #false)) #'2020-07-12T13:50:56.075584+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:31.011434+02:00') #(#(#RGMetaclassDefinition #(#'HeySql class' #HeySql)) #'2020-07-02T19:42:24.535061+02:00') #(#(#RGMethodDefinition #(#HeySql #asDictionary #false)) #'2020-07-12T13:50:56.075584+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2020-07-19T19:24:08.777556+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -29,7 +29,7 @@ ManifestHeySql class >> ruleGRTemporaryNeitherReadNorWrittenRuleV1FalsePositive 
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleLongMethodsRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:08:44.594507+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:08:44.594507+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2020-07-19T19:48:06.653629+02:00') )
 ]
 
 { #category : #'code-critics' }
@@ -99,7 +99,7 @@ ManifestHeySql class >> ruleRBUtilityMethodsRuleV1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleReGlobalVariablesUsageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:27.06862+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2020-06-29T23:30:27.610452+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:29.480836+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-06-29T22:59:27.06862+02:00') #(#(#RGMetaclassDefinition #(#'HeySqlDbMigrator class' #HeySqlDbMigrator)) #'2020-06-29T23:30:27.610452+02:00') #(#(#RGMethodDefinition #(#'HeySql class' #packageDbSetup: #true)) #'2020-07-02T19:42:29.480836+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2020-07-19T22:15:53.82306+02:00') )
 ]
 
 { #category : #'code-critics' }
