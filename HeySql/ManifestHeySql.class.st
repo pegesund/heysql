@@ -14,7 +14,7 @@ ManifestHeySql class >> ruleBadMessageRule2V1FalsePositive [
 
 { #category : #'code-critics' }
 ManifestHeySql class >> ruleCascadedNextPutAllsRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:26.364206+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#'HeySqlDbMigrator class' #migrateSome: #true)) #'2020-07-08T20:06:26.364206+02:00') #(#(#RGClassDefinition #(#HeySql)) #'2020-07-20T11:12:06.600176+02:00') )
 ]
 
 { #category : #'code-critics' }

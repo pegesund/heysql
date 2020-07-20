@@ -547,7 +547,8 @@ HeySql >> insert [
 	(Statements includesKey: statementName)
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
 	LocalClient value
-		ifNotNil: [ ^ self
+		ifNotNil: [ 
+			^ self
 				insertClient: LocalClient value
 				values: values
 				statementName: statementName ].
