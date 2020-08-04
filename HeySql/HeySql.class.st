@@ -452,10 +452,10 @@ HeySql class >> toJsonDictionary: res [
 	"Transform heysql-result to a dictkonary in a json-safe way"
 
 	(res isKindOf: self)
-		ifTrue: [ ^ res asDictionary ].
+		ifTrue: [ ^ {res asDictionary} ].
 	(res isKindOf: Collection)
 		ifTrue: [ ^ res collect: [ :r | r asDictionary ] ].
-	^ {('res' -> 'not found')} asDictionary
+	^ {} 
 ]
 
 { #category : #'private ' }
