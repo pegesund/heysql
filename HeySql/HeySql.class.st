@@ -30,13 +30,12 @@ Class {
 
 { #category : #converting }
 HeySql class >> asArray: hres [
+
 	"Transform a heysql result to an array"
-	hres ifNil: [ ^ { } ].
-	(hres isKindOf: #Collection)
-	ifTrue: [ ^ hres ].
-	^ { hres }.
-	
-	
+
+	hres ifNil: [ ^ {  } ].
+	(hres isCollection) ifTrue: [ ^ hres ].
+	^ { hres }
 ]
 
 { #category : #db }
