@@ -399,23 +399,29 @@ HeySql class >> init: url [
 
 { #category : #db }
 HeySql class >> packageDbSetup: packageName [
+
 	"Iterates over all classes in a package and calls dbSetup method on the method if found"
 
 	| classes |
-	classes := Smalltalk allClassesAndTraits
-		select: [ :theClass | 
-			| className |
-			className := theClass category asString.
-			(className beginsWith: packageName)
-				& ((className findString: 'Manifest') = 0) ].
-	classes
-		do: [ :theClass | 
-			Transcript show: theClass.
-			theClass generateGettersAndSetters.
-			((theClass new) isKindOf: Generic)
-				ifFalse: [ theClass generateSimpleDbOperations: theClass asString asLowercase ].
-			(theClass respondsTo: #dbSetup)
-				ifTrue: [ theClass dbSetup ] ]
+	classes := Smalltalk allClassesAndTraits select: [ :theClass | 
+		           | className |
+		           className := theClass category asString.
+		           (className beginsWith: packageName)
+		           & ((className findString: 'Manifest') = 0) ].
+
+	classes := classes select: [ :c | 
+		           (c asString findString: 'Base') = 0 ].
+	Transcript
+		show: 'Generating heysql-functionality';
+		cr.
+	classes do: [ :theClass | 
+		Transcript
+			show: theClass;
+			cr.
+		theClass generateGettersAndSetters.
+		(theClass new isKindOf: Generic) ifFalse: [ 
+			theClass generateSimpleDbOperations: theClass asString asLowercase ].
+		(theClass respondsTo: #dbSetup) ifTrue: [ theClass dbSetup ] ]
 ]
 
 { #category : #accessing }
