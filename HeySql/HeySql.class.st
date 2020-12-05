@@ -695,7 +695,8 @@ HeySql >> validateIds: errs [
 
 { #category : #accessing }
 HeySql >> validateRules: errs [
+
 	"Override this one"
-	self validateIds: errs.
+
 
 ]
