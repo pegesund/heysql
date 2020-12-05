@@ -678,8 +678,24 @@ HeySql >> validate [
 	^ errs
 ]
 
+{ #category : #validating }
+HeySql >> validateIds: errs [
+
+	"Validate all fields with ids. Validate only if field is not empty!"
+
+	| theClass possibleEntity foreignId |
+	self class dbFields do: [ :f | 
+		((f endsWith: 'Id') and: [ self respondsTo: f asSymbol ]) ifTrue: [ 
+			foreignId := self perform: f asSymbol.
+			foreignId ifNotNil: [ 
+				theClass := (f readStream upToAll: 'Id') capitalized asClass.
+				possibleEntity := theClass byId: foreignId.
+				possibleEntity ifNil: [ errs at: f put: 'wrong id' ] ] ] ]
+]
+
 { #category : #accessing }
 HeySql >> validateRules: errs [
 	"Override this one"
+	self validateIds: errs.
 
 ]
