@@ -517,19 +517,20 @@ HeySql class >> url: anObject [
 
 { #category : #accessing }
 HeySql >> asDictionary [
+
 	"comment stating purpose of instance-side method"
 
 	| vars dict val |
 	vars := self class dbFields collect: [ :v | v asSymbol ].
+	vars add: #id.
 	dict := Dictionary new.
-	vars
-		do: [ :var | 
-			val := (self respondsTo: var)
-				ifTrue: [ self perform: var ]
-				ifFalse: [ self instVarNamed: var ].
-			(val isKindOf: DateAndTime)
-				ifTrue: [ val := val asString ].
-			dict at: var asString put: val ].
+	vars do: [ :var | 
+		val := (self respondsTo: var)
+			       ifTrue: [ self perform: var ]
+			       ifFalse: [ self instVarNamed: var ].
+		(val isKindOf: DateAndTime) ifTrue: [ val := val asString ].
+		val ifNotNil: 
+		[dict at: var asString put: val] ].
 	^ dict
 ]
 
