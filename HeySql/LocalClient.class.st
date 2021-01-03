@@ -3,6 +3,6 @@ Used for transactions in a controller
 "
 Class {
 	#name : #LocalClient,
-	#superclass : #ProcessLocalVariable,
+	#superclass : #DynamicVariable,
 	#category : #HeySql
 }
