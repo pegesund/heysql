@@ -457,8 +457,8 @@ HeySql class >> packageDbSetup: packageName [
 			show: theClass;
 			cr.
 		theClass generateGettersAndSetters.
-		(theClass new isKindOf: Generic) ifFalse: [ 
-			theClass generateSimpleDbOperations: theClass asString asLowercase ].
+		(theClass new isKindOf: (Smalltalk at: #Generic ifAbsent: [ nil ])) ifFalse: [ 
+			theClass generateSimpleDbOperations: theClass new getTableName ].
 		(theClass respondsTo: #dbSetup) ifTrue: [ theClass dbSetup ] ]
 ]
 
@@ -574,7 +574,7 @@ HeySql >> asDictionary [
 
 { #category : #db }
 HeySql >> getTableName [
-	^ self className .
+	^ self className asLowercase.
 ]
 
 { #category : #accessor }
@@ -598,7 +598,7 @@ HeySql >> insert [
 	| values statementName |
 	values := self class dbFields
 		collect: [ :field | self perform: field asSymbol ].
-	statementName := 'heysql_insert_' , self className asLowercase.
+	statementName := 'heysql_insert_' , self getTableName.
 	(Statements includesKey: statementName)
 		ifFalse: [ self class generateSimpleDbOperations: self getTableName ].
 	LocalClient value
@@ -678,7 +678,7 @@ HeySql >> update [
 	| values fields statementName  |
 	fields := self class dbFields.
 	values := fields collect: [ :field | self perform: field asSymbol ].
-	statementName := 'heysql_update_' , self className asLowercase.
+	statementName := 'heysql_update_' , self getTableName.
 	LocalClient value
 		ifNotNil: [ ^ self
 				updateClient: LocalClient value
