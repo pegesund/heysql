@@ -112,7 +112,7 @@ HeySqlDbMigrator class >> createMigrationTempateOne: theClass [
 			'
 		format:
 			{vars.
-			theClass asString}.
+			theClass new getTableName}.
 	^ comment , table withCRs
 ]
 
