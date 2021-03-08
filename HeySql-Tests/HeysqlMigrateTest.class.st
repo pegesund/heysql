@@ -8,16 +8,13 @@ Class {
 HeysqlMigrateTest >> testMigrateSimple [
 	"generate some migrations methods without content, then run this and make sure migration date is updated."
 
-	| client lastMigration lastMigrationDb |
+	| lastMigration lastMigrationDb |
+	HeySql init: 'psql://foxface:foxface@localhost/foxface'.
 	HeySqlDbMigrator new: HeySqlMigrations.
-	HeySqlDbMigrator updateMigrationTable: 'dummy'.
-	client := P3Client new url: 'psql://foxface:foxface@localhost'.
-	client execute: 'delete from migrations'.
 	HeySqlDbMigrator createMigration.
 	lastMigration := HeySqlDbMigrator createMigration.
 	HeySqlDbMigrator migrate.
-	lastMigrationDb := (client
-		query: 'select mdate from migrations where id = 1') data at: 1.
+	HeySql getPool withConnection: [ :client | lastMigrationDb := (client query: 'select mdate from migrations where id = 1') data at: 1 ].
 	self assert: [ (lastMigrationDb at: 1) = lastMigration ].
-	client close.
+	HeySql closePool. 
 ]
