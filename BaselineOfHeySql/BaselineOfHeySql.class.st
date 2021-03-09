@@ -17,6 +17,6 @@ BaselineOfHeySql >> baselineOf: spec [
 			spec
 				package: 'HeySql-Tests'
 				with: [ spec requires: #('HeySql' 'P3') ].
-			spec group: 'default' with: #('HeySql' 'HeySql-Tests' 'P3').
+			spec group: 'default' with: #('HeySql' 'HeySql-Tests' 'HeySql-Tests-Models' 'P3').
 			spec group: 'core' with: #('HeySql' 'P3') ]
 ]
