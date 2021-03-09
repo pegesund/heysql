@@ -4,9 +4,6 @@ A HeySqlTest is a test class for testing the behavior of HeySql
 Class {
 	#name : #HeySqlTest,
 	#superclass : #TestCase,
-	#classVars : [
-		'Client'
-	],
 	#category : #'HeySql-Tests-Initialize'
 }
 
@@ -16,22 +13,26 @@ HeySqlTest >> setUp [
 
 	| personTable |
 	super setUp.
-	HeySql init: 'psql://foxface:foxface@localhost'.
-	Client := P3Client new url: 'psql://foxface:foxface@localhost'.
-	Client execute: 'drop table if exists heysqlperson '.
+	HeySql init: 'psql://foxface:foxface@localhost/foxface'.
+	HeySql packageDbSetup: 'HeySql-Tests-Models'.
+	HeySql getPool withConnection: [ :client | client execute: 'drop table if exists heysqlperson' ].
 	personTable := {('id' -> 'serial').
+	('email' -> 'text').
+	('description' -> 'text').
 	('forename' -> 'text').
 	('surname' -> 'text')} asDictionary.
-	HeySql createTable: 'heysqlperson' tableDict: personTable
+	HeySql getPool withConnection: [ :client | 
+		HeySql sharedClient: client. 
+		HeySql createTable: 'heysqlperson' tableDict: personTable.
+	].
 ]
 
 { #category : #running }
 HeySqlTest >> tearDown [
 	"End of tests"
 
-	Client close.
-	HeySql closePool .
-	super tearDown
+	HeySql closePool.
+	super tearDown.
 ]
 
 { #category : #tests }
@@ -39,10 +40,8 @@ HeySqlTest >> testNumberOfSqlParams [
 	"Test that we get number of params from an sql string. Note not a sql-statement which passes in the test :) "
 
 	self
-		assert:
-			(HeySql
-				findNumberOfParams: 'select * from person where forename = $1 $2 $a')
-				== 2
+		assert: (HeySql findNumberOfParams: 'select * from person where forename = $1 $2 $a')
+		equals: 2. 
 ]
 
 { #category : #tests }
@@ -59,7 +58,7 @@ HeySqlTest >> testPersonCreated [
 	HeySqlPerson removeSelector: #surname.
 	HeySqlPerson removeSelector: #forename:.
 	HeySqlPerson removeSelector: #surname:.
-	self assert: (HeySqlPerson new respondsTo: #forename) not
+	self assert: (HeySqlPerson new respondsTo: #forename) not. 
 ]
 
 { #category : #tests }
@@ -68,8 +67,8 @@ HeySqlTest >> testSqlMethodsCreated [
 
 	| dict person person2 person3 |
 	HeySql init: 'psql://foxface:foxface@localhost'.
-	HeySqlPerson dbFields: 'forename surname'.
-	Client execute: 'delete from heysqlperson'.
+	HeySqlPerson dbFields: 'forename surname description email'.
+	HeySql getPool withConnection: [ :client | client execute: 'delete from heysqlperson' ].
 	HeySqlPerson generateGettersAndSetters.
 	person := HeySqlPerson new.
 	person forename: 'petter'.
@@ -97,5 +96,5 @@ HeySqlTest >> testSqlMethodsCreated [
 	person3 := HeySqlPerson byId: person id.
 	self assert: [ person3 id == person id ].
 	self assert: [ person3 forename = 'hans petter' ].
-	HeySql closePool
+	HeySql closePool. 
 ]
