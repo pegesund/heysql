@@ -237,7 +237,7 @@ HeySqlDbMigrator class >> migrateSome: migrateMethods [
 			counter = 0
 				ifTrue: [ lastUpdate notNil
 						ifTrue: [ | theTime |
-							theTime := (lastUpdate copyFrom: 9 to: 28) asString.
+							theTime := (lastUpdate copyFrom: 9 to: (lastUpdate size)) asString.
 							self updateMigrationTable: theTime ].
 					Transcript
 						show: 'Commiting';

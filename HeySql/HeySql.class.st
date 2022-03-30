@@ -132,7 +132,7 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 
         All P3-types can be used, look them up for a complete list"
 
-	| sqlString client |
+	| sqlString client theSql |
 	sqlString := 'create table {1} (' format: {tableName}.
 	tableDict
 		keysAndValuesDo: [ :fieldName :fieldType | 
@@ -141,7 +141,8 @@ HeySql class >> createTable: tableName tableDict: tableDict [
 					{fieldName.
 					fieldType} ].
 	client := self sharedClient.
-	client execute: sqlString allButLast , ')'.
+	theSql := sqlString allButLast , ')'.
+	client execute: theSql.
 
 ]
 
