@@ -261,7 +261,7 @@ HeySqlDbMigrator class >> migratestart: migrateStart to: migrateStop [
 	migrateMethods := HeySqlMigrationClass class selectors
 		select: [ :m | 
 			| t |
-			t := m asString copyFrom: 9 to: 28.
+			t := m asString copyFrom: 9 to: (m size).
 			(m asString beginsWith: 'migrate_') & (t > migrateStart)
 				& (t <= migrateStop) ].
 	^ self migrateSome: migrateMethods
